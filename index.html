@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>長野県松川高校 インターンシップ事前講座</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            color: #333333;
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #1a365d;
+            color: #ffffff;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header-sub {
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            color: #90cdf4;
+        }
+        header h1 {
+            font-size: 1.8rem;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+        main {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .intro-box {
+            background-color: #ffffff;
+            border-left: 5px solid #2b6cb0;
+            padding: 20px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+        .intro-box p {
+            margin: 0;
+            font-size: 1.05rem;
+        }
+        .menu-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        .menu-card {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-number {
+            font-size: 0.9rem;
+            font-weight: 700;
+            background-color: #ebf8ff;
+            color: #2b6cb0;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1a365d;
+            margin: 0 0 20px 0;
+            line-height: 1.4;
+        }
+        .menu-card a {
+            display: inline-block;
+            background-color: #2b6cb0;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 2px 4px rgba(43, 108, 176, 0.2);
+        }
+        .menu-card a:hover {
+            background-color: #2c5282;
+            text-decoration: none;
+        }
+        .menu-card a:active {
+            transform: scale(0.98);
+        }
+        footer {
+            background-color: #edf2f7;
+            color: #4a5568;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.85rem;
+            border-top: 1px solid #e2e8f0;
+            margin-top: auto;
+        }
+        @media (max-width: 600px) {
+            .menu-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            header h1 {
+                font-size: 1.5rem;
+            }
+            .card-title {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-sub">長野県松川高等学校</div>
+        <h1>インターンシップ事前講座</h1>
+    </header>
+
+    <main>
+        <div class="intro-box">
+            <p>インターンシップを有意義な体験にするための事前講座トップページです。それぞれの目的や指示に合わせて、以下のメニューから選択して進めてください。</p>
+        </div>
+
+        <div class="menu-container">
+            <!-- 選択肢 1 -->
+            <div class="menu-card">
+                <div>
+                    <span class="card-number">STEP 1</span>
+                    <h2 class="card-title">地元企業クイズ</h2>
+                </div>
+                <!-- ★GitHub Pages公開後のWebページURLに差し替え -->
+                <a href="https://t3takahashit3-cell.github.io/0723matsukawa/0723quiz.html" target="_blank">
+                    クイズページを開く
+                </a>
+            </div>
+
+            <!-- 選択肢 2 -->
+            <div class="menu-card">
+                <div>
+                    <span class="card-number">STEP 2</span>
+                    <h2 class="card-title">インターンシップ<br>ワークシート作成</h2>
+                </div>
+                <!-- ★GitHub Pages公開後のWebページURLに差し替え -->
+                <a href="https://t3takahashit3-cell.github.io/0723matsukawa/worksheet.html" target="_blank">
+                    ワークシートページを開く
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2026 長野県松川高等学校 All Rights Reserved.
+    </footer>
+
+</body>
+</html>
