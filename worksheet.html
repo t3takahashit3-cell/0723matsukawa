@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【印刷対応】インターンシップ解剖シート</title>
+    <!-- Google Fonts & FontAwesome icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', '"Noto Sans JP"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styled shadows & visual depth for bright UI */
+        .card-glow-indigo {
+            box-shadow: 0 4px 20px -2px rgba(99, 102, 241, 0.08), 0 2px 8px -1px rgba(99, 102, 241, 0.03);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+        }
+        .card-glow-amber {
+            box-shadow: 0 4px 20px -2px rgba(245, 158, 11, 0.08), 0 2px 8px -1px rgba(245, 158, 11, 0.03);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+        }
+        .card-glow-emerald {
+            box-shadow: 0 4px 20px -2px rgba(16, 185, 129, 0.08), 0 2px 8px -1px rgba(16, 185, 129, 0.03);
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+        .card-glow-rose {
+            box-shadow: 0 4px 20px -2px rgba(244, 63, 94, 0.08), 0 2px 8px -1px rgba(244, 63, 94, 0.03);
+            border: 1px solid rgba(244, 63, 94, 0.15);
+        }
+        
+        /* Interactive Filter Classes */
+        .phase-highlight {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .dimmed {
+            opacity: 0.15;
+            filter: grayscale(90%) blur(0.5px);
+            pointer-events: none;
+        }
+
+        /* Default fallback values for prints */
+        .only-print {
+            display: none !important;
+        }
+
+        /* PRINT STYLING - Critical for A4 physical worksheets & beautiful PDF export */
+        @media print {
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                padding: 0 !important;
+                font-size: 10pt !important;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .only-print {
+                display: block !important;
+            }
+            .print-container {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                background: transparent !important;
+            }
+            
+            /* 紙面上でも横並びグリッドを維持して縦の伸びと余白を削減 */
+            .grid {
+                display: grid !important;
+                gap: 0.75rem !important;
+            }
+            .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+            .grid-cols-2, .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+            .grid-cols-3, .md\:grid-cols-3, .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+            .grid-cols-4, .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+            .md\:col-span-2 { grid-column: span 2 / span 2 !important; }
+            .md\:col-span-3 { grid-column: span 3 / span 3 !important; }
+            .md\:col-span-4 { grid-column: span 4 / span 4 !important; }
+            
+            .print-card {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                border: 1px solid #cbd5e1 !important;
+                box-shadow: none !important;
+                margin-bottom: 0.75rem !important;
+                padding: 0.75rem !important;
+                page-break-inside: avoid;
+            }
+            .dimmed {
+                opacity: 1 !important;
+                filter: none !important;
+                pointer-events: auto !important;
+            }
+            /* Convert input fields to handwriting lines for physical printed sheets */
+            textarea, input[type="text"] {
+                display: none !important;
+            }
+            .print-input-line {
+                display: block !important;
+                border-bottom: 1px dotted #64748b !important;
+                height: 24px !important;
+                margin-top: 2px;
+            }
+            .print-lines-group {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 18px !important;
+                margin-top: 8px !important;
+                margin-bottom: 4px !important;
+            }
+            .print-line-dotted {
+                border-bottom: 1px dotted #64748b !important;
+                height: 1px !important;
+                width: 100% !important;
+            }
+            .print-lines-group-large {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 22px !important;
+                margin-top: 14px !important;
+                margin-bottom: 8px !important;
+            }
+            h1, h2, h3, h4 {
+                color: #000000 !important;
+            }
+            .print-bg-force {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            
+            /* 改ページを自動にし、隙間が空きすぎないように制御 */
+            .page-break {
+                page-break-before: auto !important;
+                padding-top: 0.5rem !important;
+            }
+            h2, .flex {
+                page-break-after: avoid;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen font-sans antialiased pb-20 transition-all duration-300">
+
+    <!-- HEADER HUB -->
+    <header class="no-print sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-6 py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
+            
+            <!-- Logo & Title -->
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-500 to-indigo-600 flex items-center justify-center shadow-md shadow-indigo-500/10">
+                    <i class="fa-solid fa-graduation-cap text-2xl text-white"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="px-2 py-0.5 text-[10px] font-extrabold uppercase bg-indigo-500/10 text-indigo-600 rounded-md tracking-widest border border-indigo-500/20">A4手書き最適化版</span>
+                    </div>
+                    <h1 class="text-xl md:text-2xl font-black text-slate-900 tracking-tight">
+                        インターンシップ解剖シート
+                    </h1>
+                </div>
+            </div>
+
+            <!-- Interactivity Controls (Phase Selector & Progress) -->
+            <div class="flex flex-wrap items-center justify-center gap-4 bg-white p-2 rounded-2xl border border-slate-200 shadow-sm w-full lg:w-auto">
+                
+                <!-- Toggle Mode Buttons -->
+                <div class="flex bg-slate-100 p-1 rounded-xl text-xs font-semibold">
+                    <button onclick="setPhaseFilter('all')" id="btn-phase-all" class="px-3 py-1.5 rounded-lg transition-all bg-indigo-600 text-white shadow-sm">
+                        <i class="fa-solid fa-list"></i> 全て
+                    </button>
+                    <button onclick="setPhaseFilter('pre')" id="btn-phase-pre" class="px-3 py-1.5 rounded-lg transition-all text-slate-600 hover:text-indigo-600">
+                        事前
+                    </button>
+                    <button onclick="setPhaseFilter('pre-post')" id="btn-phase-pre-post" class="px-3 py-1.5 rounded-lg transition-all text-slate-600 hover:text-indigo-600">
+                        事前・事後
+                    </button>
+                    <button onclick="setPhaseFilter('post')" id="btn-phase-post" class="px-3 py-1.5 rounded-lg transition-all text-slate-600 hover:text-indigo-600">
+                        事後
+                    </button>
+                </div>
+
+                <!-- Live XP Progress Tracker -->
+                <div class="flex items-center gap-3 border-l border-slate-200 pl-4">
+                    <div class="text-right">
+                        <div class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Quest Progress</div>
+                        <div class="text-xs font-black text-slate-700" id="rank-text">未記入</div>
+                    </div>
+                    <div class="w-24 bg-slate-100 h-3 rounded-full overflow-hidden p-0.5 border border-slate-200">
+                        <div id="progress-fill" class="bg-gradient-to-r from-emerald-400 to-teal-500 h-full rounded-full transition-all duration-300" style="width: 0%;"></div>
+                    </div>
+                    <div class="text-sm font-black text-emerald-500 w-10" id="progress-pct">0%</div>
+                </div>
+
+                <!-- Action Button Controls -->
+                <div class="flex gap-2 border-l border-slate-200 pl-4">
+                    <button onclick="triggerPrint()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black flex items-center gap-2 transition-all shadow-md shadow-indigo-500/10" title="紙に手書き用の白紙ワークシートを印刷・PDF出力">
+                        <i class="fa-solid fa-print"></i> 白紙を印刷する (PDF)
+                    </button>
+                    <button onclick="toggleSummaryView()" class="px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs font-black flex items-center gap-1.5 transition-all" title="入力内容をスライド作成用に美しく整理する">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> 整理
+                    </button>
+                    <button onclick="showResetDialog()" class="w-9 h-9 rounded-xl bg-rose-50 hover:bg-rose-100 flex items-center justify-center text-rose-600 border border-rose-100 transition-all" title="入力データをすべて消去する">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main id="workspace-main" class="max-w-7xl mx-auto px-4 md:px-6 mt-6 space-y-8 print-container">
+
+        <!-- STUDENT PROFILE BANNER (Meta Data Input) -->
+        <section class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-sm card-glow-indigo print-card">
+            <h2 class="text-xs font-extrabold text-slate-500 uppercase tracking-widest mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-user text-indigo-500"></i> 記入者プロフィール
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="text-[11px] text-slate-500 font-bold block mb-1">■ 学校名・学年クラス</label>
+                    <input type="text" id="meta-school" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white" value="長野県松川高等学校" placeholder="長野県松川高等学校 1年A組">
+                    <div class="only-print print-input-line"></div>
+                </div>
+                <div>
+                    <label class="text-[11px] text-slate-500 font-bold block mb-1">■ 氏名</label>
+                    <input type="text" id="meta-name" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="山田 太郎">
+                    <div class="only-print print-input-line"></div>
+                </div>
+                <div>
+                    <label class="text-[11px] text-slate-500 font-bold block mb-1">■ 同行者名</label>
+                    <input type="text" id="meta-companions" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="鈴木 一郎、田中 次郎">
+                    <div class="only-print print-input-line"></div>
+                </div>
+                <div>
+                    <label class="text-[11px] text-slate-500 font-bold block mb-1">■ 訪問・調査日</label>
+                    <input type="text" id="meta-date" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-sm text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="2026年〇月〇日">
+                    <div class="only-print print-input-line"></div>
+                </div>
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-slate-100 flex flex-wrap gap-4 text-[11px] text-slate-500 no-print">
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> 事前：事前講座で記入</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> 事前・事後：事前予測 ➔ 現場で答え合わせ</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> 事後：体験後にまとめて発表スライドへ</span>
+            </div>
+        </section>
+
+        <!-- ==========================================
+             CATEGORY 1: BASIC INFORMATION (基本情報)
+             ========================================== -->
+        <section class="space-y-3">
+            <div class="flex items-center gap-3 border-b border-slate-200 pb-1.5">
+                <span class="w-7 h-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-xs">01</span>
+                <div>
+                    <h2 class="text-md md:text-lg font-black text-slate-900">基本情報：組織のプロフィールと基礎データ</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+                <!-- 1. 企業名 -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-indigo-200 transition-all card-glow-indigo phase-highlight print-card" data-phase="pre">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-indigo-100 text-indigo-600 rounded border border-indigo-200 print-badge">事前</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q1. 正式名称</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">会社・組織の正式名称は？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-1')" class="text-[10px] text-indigo-500 hover:text-indigo-700 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-1" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            「株式会社マルヤ」のように正式な法人格（株式会社、合同会社、有限会社、あるいは一般社団法人や役所の名称など）を正確に調べて記入します。
+                        </div>
+                        <input type="text" id="q-1" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="正式名称を入力してください">
+                        <div class="only-print print-input-line"></div>
+                    </div>
+                </div>
+
+                <!-- 2. 所在地 -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-indigo-200 transition-all card-glow-indigo phase-highlight print-card" data-phase="pre">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-indigo-100 text-indigo-600 rounded border border-indigo-200 print-badge">事前</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q2. 所在地</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">所在地は？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-2')" class="text-[10px] text-indigo-500 hover:text-indigo-700 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-2" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            本社の住所（例：〇〇市〇〇町1-2-3）や、自分たちが今回訪問・体験する「マルヤ〇〇店」の実際の住所、またその企業が展開している地域エリア（例：〇〇市内を中心に5店舗を展開）を調べます。
+                        </div>
+                        <input type="text" id="q-2" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="住所、提供エリアを入力してください">
+                        <div class="only-print print-input-line"></div>
+                    </div>
+                </div>
+
+                <!-- 3. 組織分類 -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-indigo-200 transition-all card-glow-indigo phase-highlight print-card" data-phase="pre">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-indigo-100 text-indigo-600 rounded border border-indigo-200 print-badge">事前</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q3. 組織の分類</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1.5">どのような性質の組織ですか？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-3')" class="text-[10px] text-indigo-500 hover:text-indigo-700 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-3" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            「マルヤ」は地域の食料品や日用品をお客様に販売して利益を得ているので、「民間企業（会社・商店・スーパーなど）」にチェックを入れます。
+                        </div>
+                        <div class="space-y-1.5 text-xs text-slate-700 mt-2">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="q-3-a" class="w-3.5 h-3.5 accent-indigo-600 rounded bg-slate-50 border-slate-300">
+                                <span>民間企業（会社・商店・スーパーなど）</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="q-3-b" class="w-3.5 h-3.5 accent-indigo-600 rounded bg-slate-50 border-slate-300">
+                                <span>公共の機関（役所・警察・図書館など）</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" id="q-3-c" class="w-3.5 h-3.5 accent-indigo-600 rounded bg-slate-50 border-slate-300">
+                                <span>その他（NPO・病院・福祉施設など）</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. メンバーの数 -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-indigo-200 transition-all card-glow-indigo phase-highlight print-card" data-phase="pre">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-indigo-100 text-indigo-600 rounded border border-indigo-200 print-badge">事前</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q4. メンバーの数</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">働くスタッフ（社員）の数は何人ですか？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-4')" class="text-[10px] text-indigo-500 hover:text-indigo-700 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-4" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            企業全体の正社員の数、またはパート・アルバイトを含めた総数を調べます。例えば「正社員50名、パート・アルバイトを含めると約200名」のように規模感が伝わるように書き分けます。
+                        </div>
+                        <input type="text" id="q-4" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="例：45名、約300名など">
+                        <div class="only-print print-input-line"></div>
+                    </div>
+                </div>
+
+                <!-- 5. 創業年 & 理念 -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-indigo-200 transition-all card-glow-indigo phase-highlight print-card md:col-span-2" data-phase="pre-post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-amber-100 text-amber-700 rounded border border-amber-200 print-badge">事前・事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q5. 歴史と理念</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">創業年、理念やキャッチコピーは？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-5')" class="text-[10px] text-indigo-500 hover:text-indigo-700 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-5" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            「創業1995年（今年で創業31年）」のようにいつからある組織なのかを調べ、理念には、マルヤのホームページや店舗のポスターに載っている「地域に豊かな食卓を、笑顔と新鮮さで届けるマルヤ」などのスローガン・想いを記入します。
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-1.5">
+                            <div>
+                                <label class="text-[9px] text-slate-500 font-bold block mb-1">■ 創業・設立（いつからある？）</label>
+                                <input type="text" id="q-6" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white" placeholder="例：1950年、創業75年など">
+                                <div class="only-print print-input-line"></div>
+                            </div>
+                            <div>
+                                <label class="text-[9px] text-slate-500 font-bold block mb-1">■ 理念（大切にしているスローガン）</label>
+                                <textarea id="q-7" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white h-11" placeholder="一番大切にしている想い・キャッチコピー"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================
+             CATEGORY 2: BUSINESS OPERATIONS (事業運営)
+             ========================================== -->
+        <section class="space-y-3 page-break">
+            <div class="flex items-center gap-3 border-b border-slate-200 pb-1.5">
+                <span class="w-7 h-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-xs">02</span>
+                <div>
+                    <h2 class="text-md md:text-lg font-black text-slate-900">事業運営：組織が価値を生むシステムを解剖する</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <!-- 8. だれのため、何のために存在する？ -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-amber-200 transition-all card-glow-amber phase-highlight print-card" data-phase="pre-post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-amber-100 text-amber-700 rounded border border-amber-200 print-badge">事前・事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q6. 存在意義</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">だれのため、何のために存在する？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-8')" class="text-[10px] text-amber-600 hover:text-amber-800 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-8" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            【事前予想】「毎日安くて美味しい食べ物を買いに来る近所の人々のため」等。<br>
+                            【当日の答え合わせ】「仕事帰りで時間がない共働き世帯や、遠くの大型モールまで行けない高齢者の豊かな食生活を守るため」など、一歩踏み込んだ対象と目的を捉えて記入します。
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-[9px] text-slate-400 font-bold block mb-1">【事前予想】</label>
+                                <textarea id="q-8-pre" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white h-16" placeholder="行く前の予想・仮説"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[9px] text-slate-400 font-bold block mb-1">【当日の答え合わせ】</label>
+                                <textarea id="q-8-post" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white h-16" placeholder="実際の存在目的・対象者"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. 仕入れ (Input) -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-amber-200 transition-all card-glow-amber phase-highlight print-card" data-phase="pre-post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-amber-100 text-amber-700 rounded border border-amber-200 print-badge">事前・事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q7. 仕入れ (Input)</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">毎日、この組織に新しく入ってくるものは？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-9')" class="text-[10px] text-amber-600 hover:text-amber-800 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-9" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            【事前予想】「問屋からトラックで運ばれてくるダンボール入りの加工食品、肉や野菜」等。<br>
+                            【当日の答え合わせ】「毎朝市場から直送される鮮魚、地元の契約農家10名から直接届く土の付いた新鮮な朝獲れ野菜、各メーカーから届く調味料や飲料」のように、どこから何が届くかを具体化します。
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-[9px] text-slate-400 font-bold block mb-1">【事前予想】</label>
+                                <textarea id="q-9-pre" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white h-16" placeholder="どんな材料や資源が集まる？"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[9px] text-slate-400 font-bold block mb-1">【当日の答え合わせ】</label>
+                                <textarea id="q-9-post" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white h-16" placeholder="実際の仕入れや情報"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10. プロセス (Process) -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-amber-200 transition-all card-glow-amber phase-highlight print-card" data-phase="pre-post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-amber-100 text-amber-700 rounded border border-amber-200 print-badge">事前・事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q8. 加工・工夫 (Process)</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">入ってきたものをどう変化（加工・工夫）させている？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-10')" class="text-[10px] text-amber-600 hover:text-amber-800 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-10" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            【事前予想】「きれいに商品を棚に並べる。賞味期限の近いものに値引きシールを貼る」等。<br>
+                            【当日の答え合わせ】「地産地消のこだわりを手書きのおすすめレシピPOPでアピールする」「大きなブロック肉や丸魚を、売場で使いやすいサイズにスライス・三枚おろし加工する」「惣菜を店内の厨房で出来立ての状態で調理して夕方に並べる」などの魔法を記録します。
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-[9px] text-slate-400 font-bold block mb-1">【事前予想】</label>
+                                <textarea id="q-10-pre" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white h-16" placeholder="どんな加工や工夫が行われる？"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[9px] text-slate-400 font-bold block mb-1">【当日の答え合わせ】</label>
+                                <textarea id="q-10-post" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white h-16" placeholder="実際のプロの技術や仕組み"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 11. アウトプット (Output) -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-amber-200 transition-all card-glow-amber phase-highlight print-card" data-phase="pre-post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-amber-100 text-amber-700 rounded border border-amber-200 print-badge">事前・事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q9. 価値の提供 (Output)</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">価値が高まったものは、最終的に「誰のどんな困りごと」を解決するために届いているだろう？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-11')" class="text-[10px] text-amber-600 hover:text-amber-800 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-11" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            【事前予想】「買い出しに来た人の夕飯の準備が楽になる。美味しいお菓子が手に入る」等。<br>
+                            【当日の答え合わせ】「今晩のメニューに悩むお母さんが、マルヤの手軽で安全な惣菜のおかげで調理時間を20分削減でき、家族とゆっくり会話する団らんの時間が生まれた」「重い買い物袋を運べない地域の独り暮らしのお年寄りに、移動販売車『マルヤ号』が笑顔と食材を届けて健康確認もできた」など、具体的な幸せのシーンを記録します。
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-[9px] text-slate-400 font-bold block mb-1">【事前予想】</label>
+                                <textarea id="q-11-pre" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white h-16" placeholder="誰がどう助かる？"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[9px] text-slate-400 font-bold block mb-1">【当日の答え合わせ】</label>
+                                <textarea id="q-11-post" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white h-16" placeholder="実際の成果・提供した価値"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12. ライバル（競合） -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-amber-200 transition-all card-glow-amber phase-highlight print-card" data-phase="post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-700 rounded border border-emerald-200 print-badge">事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q10. ライバル（競合）と強み</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">★社員さんに質問！独自の強みは？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-12')" class="text-[10px] text-amber-600 hover:text-amber-800 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-12" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            「近くにある大手の大型チェーンスーパーや、コンビニ、自宅に直接届けてくれるネット通販」が競合相手になります。<br>
+                            マルヤの『絶対に負けない強み』は、地元漁港から直接届くため鮮度が抜群で値段も安い朝獲れ魚、スタッフがお客さんの顔と名前を覚えているアットホームな接客力など、大手にはできない細かい親密さであることをインタビュー等からまとめます。
+                        </div>
+                        <textarea id="q-12" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white h-20" placeholder="インタビューでの回答や、気づいた独自の強みをまとめよう"></textarea>
+                        <div class="only-print print-lines-group">
+                            <div class="print-line-dotted"></div>
+                            <div class="print-line-dotted"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 13. コスト -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-amber-200 transition-all card-glow-amber phase-highlight print-card" data-phase="post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-700 rounded border border-emerald-200 print-badge">事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q11. 運営資金とコスト</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">この組織は活動を続けるためにお金をどこから集めている？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-13')" class="text-[10px] text-amber-600 hover:text-amber-800 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-13" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            主なお金の集め方は「お買い物に来てくれる一般の地元のお客様が、レジで支払ってくれる売上金額（対価）」です。<br>
+                            そのお金は、店舗を維持する莫大な「電気代（冷蔵ショーケースは24時間稼働）」、たくさんの社員・パートの「人件費（給料）」、新しい商品を全国から運んでくる「仕入れ費用」などのコストに使われていることを理解して記述します。
+                        </div>
+                        <textarea id="q-13" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white h-20" placeholder="お金の流れや予算、運営資金の集め方を記述"></textarea>
+                        <div class="only-print print-lines-group">
+                            <div class="print-line-dotted"></div>
+                            <div class="print-line-dotted"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 14. ゆずれないルール・制限 -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-amber-200 transition-all card-glow-amber phase-highlight print-card" data-phase="pre-post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-amber-100 text-amber-700 rounded border border-amber-200 print-badge">事前・事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q12. ゆずれないルール・制限</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">絶対に破ってはいけない法律やルールはある？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-14')" class="text-[10px] text-amber-600 hover:text-amber-800 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-14" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            【事前予想】「腐ったものや傷んでいるものを売らない、泥棒を入れない」等。<br>
+                            【当日の答え合わせ】「食品衛生法やHACCPに基づいた徹底的な温度チェック（冷蔵は常に5度以下など）」「表示しているアレルギー情報や産地情報に1文字でも嘘があってはいけない規律」「ポイントカードや宅配サービスで預かるお客様の個人情報保護」といった、絶対に譲れない安全へのルールを記入します。
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-[9px] text-slate-400 font-bold block mb-1">【事前予想】</label>
+                                <textarea id="q-14-pre" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white h-14" placeholder="どんな法規制がありそう？"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[9px] text-slate-400 font-bold block mb-1">【当日の答え合わせ】</label>
+                                <textarea id="q-14-post" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white h-14" placeholder="実際の厳格な規律や厳しい基準"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 15. キーシーズン -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-amber-200 transition-all card-glow-amber phase-highlight print-card" data-phase="pre-post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-amber-100 text-amber-700 rounded border border-amber-200 print-badge">事前・事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q13. キーシーズン（繁閑期）</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">1年間で一番忙しい時期（キーシーズン）はいつ？なぜ？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-15')" class="text-[10px] text-amber-600 hover:text-amber-800 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-15" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            【事前予想】「クリスマスやお正月、夏休みがBBQなどで忙しくなりそう」等。<br>
+                            【当日の答え合わせ】「年末年始（おせち用の食材買い出しやお正月準備で通常の約3倍のお客さんが来る）、クリスマス、お盆」など、イベントのある時期を特定します。「逆に閑散期（2月・8月など）は売上が落ちやすいため、地域の特産フェアや大感謝セールで補う工夫をしている」なども記述します。
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div>
+                                <label class="text-[9px] text-slate-400 font-bold block mb-1">【事前予想】</label>
+                                <input type="text" id="q-15-pre" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white mb-1" placeholder="予想時期とその理由">
+                                <div class="only-print print-input-line"></div>
+                            </div>
+                            <div>
+                                <label class="text-[9px] text-slate-400 font-bold block mb-1">【当日の答え合わせ】</label>
+                                <input type="text" id="q-15-post" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-amber-500 focus:bg-white mb-1" placeholder="実際のピーク期とその理由">
+                                <div class="only-print print-input-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================
+             CATEGORY 3: ROLES & SPECIALISTS (職種)
+             ========================================== -->
+        <section class="space-y-3 page-break">
+            <div class="flex items-center gap-3 border-b border-slate-200 pb-1.5">
+                <span class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs">03</span>
+                <div>
+                    <h2 class="text-md md:text-lg font-black text-slate-900">職種：働くプロの役割分担と連携（バトンリレー）</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                <!-- 16. お客様や利用者から見える仕事、17. 裏方の仕事、18. 専門職 -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-emerald-200 transition-all card-glow-emerald md:col-span-3 phase-highlight print-card" data-phase="pre-post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-amber-100 text-amber-700 rounded border border-amber-200 print-badge">事前・事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q14. ３つの職種の発見（表舞台・裏方・専門職）</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">組織の中で働く「３つの異なる職種」を比較して書き出そう。</h4>
+                        <button type="button" onclick="toggleHint('hint-q-16')" class="text-[10px] text-emerald-600 hover:text-emerald-800 font-bold focus:outline-none flex items-center gap-1 mb-3 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-16" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            <strong>① 【お客様や利用者から見える仕事】</strong> レジでの明るい挨拶と素早いスキャンを行う「チェッカー（レジ係）」や、フロアで品物を案内・販売する係を予想して書きます。<br>
+                            <strong>② 【裏方の仕事】</strong> バックヤードでお肉や魚を加工する担当、惣菜調理の調理員、裏側の検品、売上集計担当などです。<br>
+                            <strong>③ 【専門職（スペシャリスト）】</strong> 新鮮な食材を仕入れる「バイヤー」、メニューを開発する「メニュー開発シェフ」、看板を描く「POPライター」などです。
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <!-- Column A: 表舞台 -->
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                <span class="text-[9px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 uppercase">Q14-A. お客様や利用者から見える仕事</span>
+                                <p class="text-[10px] text-slate-400 mt-1 mb-2">見えやすい場所で働く仕事</p>
+                                <label class="text-[9px] text-slate-400 block mb-0.5">【事前予想】</label>
+                                <input type="text" id="q-16-pre" class="w-full bg-white border border-slate-200 rounded p-1.5 text-xs text-slate-800 mb-1.5" placeholder="予想される職種">
+                                <div class="only-print print-input-line"></div>
+                                <label class="text-[9px] text-slate-400 block mb-0.5">【当日の答え合わせ】</label>
+                                <textarea id="q-16-post" class="w-full bg-white border border-slate-200 rounded p-1.5 text-xs text-slate-800 h-12" placeholder="実際の具体的な仕事内容"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                            <!-- Column B: 裏方 -->
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                <span class="text-[9px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 uppercase">Q14-B. 裏方の仕事</span>
+                                <p class="text-[10px] text-slate-400 mt-1 mb-2">見えない裏側で組織を支える仕事</p>
+                                <label class="text-[9px] text-slate-400 block mb-0.5">【事前予想】</label>
+                                <input type="text" id="q-17-pre" class="w-full bg-white border border-slate-200 rounded p-1.5 text-xs text-slate-800 mb-1.5" placeholder="予想される職種">
+                                <div class="only-print print-input-line"></div>
+                                <label class="text-[9px] text-slate-400 block mb-0.5">【当日の答え合わせ】</label>
+                                <textarea id="q-17-post" class="w-full bg-white border border-slate-200 rounded p-1.5 text-xs text-slate-800 h-12" placeholder="実際の具体的な仕事内容"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                            <!-- Column C: 専門職 -->
+                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200">
+                                <span class="text-[9px] font-bold text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200 uppercase">Q14-C. 専門職（スペシャリスト）</span>
+                                <p class="text-[10px] text-slate-400 mt-1 mb-2">特別な資格や技術を持った仕事</p>
+                                <label class="text-[9px] text-slate-400 block mb-0.5">【事前予想】</label>
+                                <input type="text" id="q-18-pre" class="w-full bg-white border border-slate-200 rounded p-1.5 text-xs text-slate-800 mb-1.5" placeholder="予想される職種">
+                                <div class="only-print print-input-line"></div>
+                                <label class="text-[9px] text-slate-400 block mb-0.5">【当日の答え合わせ】</label>
+                                <textarea id="q-18-post" class="w-full bg-white border border-slate-200 rounded p-1.5 text-xs text-slate-800 h-12" placeholder="実際の具体的な仕事内容"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 19. 連携 -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-emerald-200 transition-all card-glow-emerald phase-highlight print-card" data-phase="post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-700 rounded border border-emerald-200 print-badge">事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q15. チームの連携（バトンリレー）</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">この３つの職種（役割）の人たちは、どのように連携をしていますか？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-19')" class="text-[10px] text-emerald-600 hover:text-emerald-800 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-19" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            「レジ係（チェッカー）とお惣菜コーナーの担当がインカム（無線）でレジの混雑状況や買い物のピークの動きをリアルタイムに共有し、一番売れるタイミングで作りたての温かい揚げ物を売り場に並べている」「毎朝の朝礼とノートによる売れ残り情報、引き継ぎミスの防止活動」といった、プロのバトンパスの秘密を記録します。
+                        </div>
+                        <textarea id="q-19" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs text-slate-800 focus:outline-none focus:border-emerald-500 focus:bg-white h-20" placeholder="職種間で行われているコミュニケーションや、ミスのないバトンリレーの秘訣をメモ"></textarea>
+                        <div class="only-print print-lines-group">
+                            <div class="print-line-dotted"></div>
+                            <div class="print-line-dotted"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 20-21. プロの道具と使い方 -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-emerald-200 transition-all card-glow-emerald phase-highlight print-card" data-phase="post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-700 rounded border border-emerald-200 print-badge">事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q16. プロの道具とその持ち主</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">使っている「珍しい道具・システム」は何ですか？それをどう使っていますか？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-20')" class="text-[10px] text-emerald-600 hover:text-emerald-800 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-20" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            「お肉やお惣菜コーナーで使う、包装ラップと値段シールの印字・貼り付けをコンベアで自動化する機械」「お客さんを待たせず自動でお釣りが出てくる『自動釣銭機付きレジ端末』」「バイヤーが全国の農家と豊作状況をやり取りするための専用タブレット」などを記入します。
+                        </div>
+                        <div class="space-y-2">
+                            <div>
+                                <label class="text-[9px] text-slate-500 font-bold block mb-0.5">■ 道具の名前・特徴</label>
+                                <input type="text" id="q-20" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-emerald-500 focus:bg-white" placeholder="例：特殊な検品端末、専用設計台車など">
+                                <div class="only-print print-input-line"></div>
+                            </div>
+                            <div>
+                                <label class="text-[9px] text-slate-500 font-bold block mb-0.5">■ その道具を誰がどう使っている？</label>
+                                <textarea id="q-21" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-slate-800 focus:outline-none focus:border-emerald-500 focus:bg-white h-11" placeholder="道具の持ち主と、使い方や役割を記述"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 22-23. 言葉遣いと独自のルール -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-emerald-200 transition-all card-glow-emerald phase-highlight print-card" data-phase="post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-700 rounded border border-emerald-200 print-badge">事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q17. 業界用語と独自の規律</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">プロの言葉遣い（業界用語）や、絶対に破ってはいけない独自のルールは？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-22')" class="text-[10px] text-emerald-600 hover:text-emerald-800 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-22" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            業界用語では「前出し（棚の奥にある商品を綺麗に見せるため手前に引き出すこと）」「ロス（廃棄される商品）」「定番（売場の決まった並びの棚）」など。<br>
+                            お約束としては「生ものを加工するバックヤードに入る前は必ず専用アルコール消毒を2重に行う」「お客様と接するときは目を見てハッキリ挨拶をする」など、現場ならではの決まり事を記録します。
+                        </div>
+                        <div class="space-y-2">
+                            <div>
+                                <label class="text-[9px] text-slate-500 font-bold block mb-0.5">■ 現場で聞こえた業界用語・専門用語</label>
+                                <input type="text" id="q-22" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-emerald-500 focus:bg-white" placeholder="例：「前出し」「ロス」などとその意味">
+                                <div class="only-print print-input-line"></div>
+                            </div>
+                            <div>
+                                <label class="text-[9px] text-slate-500 font-bold block mb-0.5">■ その組織独自の厳しいルール・お約束</label>
+                                <textarea id="q-23" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-slate-800 focus:outline-none focus:border-emerald-500 focus:bg-white h-11" placeholder="職場の中でみんなが厳格に守っている行動ルール"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================
+             CATEGORY 4: CAREER PERSPECTIVE (キャリア視点)
+             ========================================== -->
+        <section class="space-y-3 page-break">
+            <div class="flex items-center gap-3 border-b border-slate-200 pb-1.5">
+                <span class="w-7 h-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-xs">04</span>
+                <div>
+                    <h2 class="text-md md:text-lg font-black text-slate-900">キャリア視点：プロの生き方から私の行動と進路を変える</h2>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <!-- 24-25. 誇りと必要なチカラ -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-rose-200 transition-all card-glow-rose phase-highlight print-card" data-phase="post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-700 rounded border border-emerald-200 print-badge">事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q18. プロの誇りと求められる力</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">その仕事で全員が「守っている誇り（マインド）」と、一番必要な「チカラ」は何？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-24')" class="text-[10px] text-rose-600 hover:text-rose-800 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-24" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            共通する誇りは「『マルヤに来れば、美味しくて楽しい時間を買える』と地域の人に信じてもらえるお店をみんなで作ること」です。<br>
+                            一番必要なのは、単に作業を言われた通りにこなすだけでなく、「目の前のお客さんが今日の献立に何を求めているのか、何に困っているのか」を察知して声をかける『思いやりの対話力・共感力』などが挙げられます。
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-[9px] text-slate-500 font-bold block mb-0.5">■ 働く全員に共通する「誇り・大切にしている心構え」</label>
+                                <textarea id="q-24" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-rose-500 focus:bg-white h-11" placeholder="インタビューや観察から見えたプロたちの共通マインド"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[9px] text-slate-500 font-bold block mb-0.5">■ この仕事をする上で、一番必要とされるチカラ</label>
+                                <input type="text" id="q-25" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs text-slate-800 focus:outline-none focus:border-rose-500 focus:bg-white" placeholder="例：先回りして気付く力、チームを調整するコミュニケーション力など">
+                                <div class="only-print print-input-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 26. やりがいインタビュー -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-rose-200 transition-all card-glow-rose phase-highlight print-card" data-phase="post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-700 rounded border border-emerald-200 print-badge">事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q19. 社員インタビュー「働くことのリアル」</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">★社員さんに質問！やりがいと辛い時の乗り越え方</h4>
+                        <button type="button" onclick="toggleHint('hint-q-26')" class="text-[10px] text-rose-600 hover:text-rose-800 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-26" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            <strong>【一番のやりがい】</strong> 「地場野菜のポップを工夫して描いたら完売して、後日おばあちゃんから『あのアドバイス通りのスープを作ったら大好評だったよ、ありがとう』と直接笑顔を向けられた瞬間」など。<br>
+                            <strong>【辛かったことと乗り越え方】</strong> 「すぐそばに大手の激安総合スーパーがオープンして売上が激減した際、全員で会議を重ね、マルヤならではの手作り惣菜の試食販売と丁寧な会話に徹底的にこだわることで呼び戻したお話」などの生きたストーリーをまとめます。
+                        </div>
+                        <div class="space-y-2">
+                            <div>
+                                <label class="text-[9px] text-slate-500 font-bold block mb-0.5 bg-slate-50 px-2 py-0.5 rounded">Q. 一番やりがいを感じる（嬉しい）瞬間はいつですか？</label>
+                                <textarea id="q-26-joy" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-slate-800 focus:outline-none focus:border-rose-500 focus:bg-white h-11" placeholder="働くやりがいの核心（生の声）を記録"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-[9px] text-slate-500 font-bold block mb-0.5 bg-slate-50 px-2 py-0.5 rounded">Q. これまでに一番「辛い」と思ったピンチは？どう乗り越えた？</label>
+                                <textarea id="q-26-pain" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-1.5 text-xs text-slate-800 focus:outline-none focus:border-rose-500 focus:bg-white h-11" placeholder="困難を乗り越えたプロの知恵・レジリエンス"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 27. 自分と比べる (自己分析＆行動宣言) -->
+                <div class="bg-gradient-to-br from-indigo-50/50 to-indigo-100/30 rounded-2xl border-2 border-indigo-200 p-5 flex flex-col justify-between hover:border-indigo-300 transition-all shadow-sm md:col-span-2 phase-highlight print-card" data-phase="post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-indigo-100 text-indigo-700 rounded border border-indigo-200 print-badge">事後（まとめ）</span>
+                            <span class="text-xs font-bold text-slate-700">Q20. プロと私を照らし合わせ、明日を変える</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">今回の企業体験を「自分のこれからの高校生活」にどう繋げますか？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-27')" class="text-[10px] text-indigo-600 hover:text-indigo-800 font-bold focus:outline-none flex items-center gap-1 mb-3 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-27" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            ①「目立たないバックヤードで、次に来るスタッフのために綺麗にパック詰めの下準備をしている姿に一番心動かされ、自分に合うと思った」など、ワクワクした点を書きます。<br>
+                            ②「明日から、マネージャーをしている部活で、次の早朝に一番に入ってくるメンバーが暗い物置でも1秒でビブスやボールを取り出せるよう、綺麗に向きを揃えて整頓して下準備してから帰ります！」など、明日から真似できる小さな習慣を書きます。
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="bg-white p-3 rounded-xl border border-slate-200">
+                                <label class="text-[10px] font-bold text-indigo-600 block mb-1">① 今回、どこに一番「ワクワクした」？（自分の強みや興味との重なり）</label>
+                                <textarea id="q-27-match" class="w-full bg-slate-50 border border-slate-200 rounded p-2 text-xs text-slate-800 h-16" placeholder="例：目立たない所で丁寧に次の準備をしていた裏方仕事に、一番心が踊った。"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                            <div class="bg-emerald-50/50 p-3 rounded-xl border border-emerald-200">
+                                <label class="text-[10px] font-bold text-emerald-700 block mb-1">② 学んだ「プロの姿勢」を、明日からの高校生活で具体的にどう実行する？</label>
+                                <textarea id="q-27-action" class="w-full bg-white border border-emerald-200 rounded p-2 text-xs text-slate-800 h-16 focus:border-emerald-500" placeholder="例：明日から、サッカー部で次の朝練の人がすぐに作業できるよう、道具倉庫を元の位置以上にきれいに整頓して帰ります。"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==========================================
+             CATEGORY 5: FUTURE VISION (未来視点)
+             ========================================== -->
+        <section class="space-y-3 page-break">
+            <div class="flex items-center gap-3 border-b border-slate-200 pb-1.5">
+                <span class="w-7 h-7 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center font-bold text-xs">05</span>
+                <div>
+                    <h2 class="text-md md:text-lg font-black text-slate-900">未来視点：この企業の１０年後を見据えた新事業提案</h2>
+                </div>
+            </div>
+
+            <!-- Changed: Structured grid cols layout to guarantee rows span cleanly -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+                <!-- 28. 10年後のピンチの予測 (技術革新、人口減少、環境対応) -->
+                <!-- Changed: Now spans md:col-span-4 to layout three columns horizontally in row -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-orange-200 transition-all card-glow-amber md:col-span-4 print-card" data-phase="post">
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-700 rounded border border-emerald-200 print-badge">事後</span>
+                            <span class="text-[10px] font-bold text-slate-400">Q21. 10年後のマクロ変化・３つのピンチ</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">10年後の未来、以下の3つの変化によって、この会社はどんな大ピンチ（課題）が起きそう？</h4>
+                        <button type="button" onclick="toggleHint('hint-q-28')" class="text-[10px] text-orange-600 hover:text-orange-800 font-bold focus:outline-none flex items-center gap-1 mb-3 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-28" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            <strong>⚡【技術革新】</strong> レジの無人化やスマホ注文が当たり前になり、マルヤの強みである「レジでの温かいおしゃべり」という店舗ならではの親密さ・強みが無用になってしまうピンチ。<br>
+                            <strong>👥【人口減少】</strong> 地域がますますお年寄りばかりになり、自分から店舗に足を運んでくれる客数が半分に減ってしまう。また、少子化で店を元気に回すための若いアルバイトや新人スタッフが全く採用できない深刻な人手不足。<br>
+                            <strong>🌱【環境対応】</strong> プラスチックトレイやビニール袋、製品の廃棄（ロス）に対する法的な厳罰・コストが跳ね上がる。また温暖化で仕入先である地元野菜や魚の不作が重なり、安く安定して並べられなくなるピンチ。
+                        </div>
+                        
+                        <!-- Columns for three main macro-environment indicators layout horizontally -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <!-- A. 技術革新 -->
+                            <div class="bg-indigo-50/30 p-3 rounded-xl border border-indigo-100">
+                                <span class="text-[9px] font-bold text-indigo-700 uppercase tracking-widest block mb-1">⚡ 1. 技術革新 (AI・自動化)</span>
+                                <textarea id="q-28-tech" class="w-full bg-white border border-slate-200 rounded p-1.5 text-xs text-slate-800 h-20" placeholder="AIやロボットの進化で、どの仕事が消える？どんな課題が生じる？"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                            <!-- B. 人口減少 -->
+                            <div class="bg-rose-50/30 p-3 rounded-xl border border-rose-100">
+                                <span class="text-[9px] font-bold text-rose-700 uppercase tracking-widest block mb-1">👥 2. 人口減少 (少子高齢化)</span>
+                                <textarea id="q-28-population" class="w-full bg-white border border-slate-200 rounded p-1.5 text-xs text-slate-800 h-20" placeholder="少子高齢化で顧客や働く人はどう減る？市場はどう縮小する？"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                            <!-- C. 環境対応 -->
+                            <div class="bg-emerald-50/30 p-3 rounded-xl border border-emerald-100">
+                                <span class="text-[9px] font-bold text-emerald-700 uppercase tracking-widest block mb-1">🌱 3. 環境対応 (脱炭素・エコ)</span>
+                                <textarea id="q-28-env" class="w-full bg-white border border-slate-200 rounded p-1.5 text-xs text-slate-800 h-20" placeholder="温暖化やエコ規制、エネルギー資源高騰で何が難しくなる？"></textarea>
+                                <div class="only-print print-lines-group">
+                                    <div class="print-line-dotted"></div>
+                                    <div class="print-line-dotted"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 29. 勝手な新事業提案 (勝手にアイデア提案) -->
+                <!-- Changed: Now spans md:col-span-4 to layout single box elegantly under row -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 flex flex-col justify-between hover:border-orange-200 transition-all card-glow-amber md:col-span-4 print-card" data-phase="post">
+                    <div>
+                        <div class="flex items-start justify-between mb-1.5">
+                            <div>
+                                <span class="px-2 py-0.5 text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-700 rounded border border-emerald-200 print-badge">事後</span>
+                                <span class="text-[10px] font-bold text-slate-400">Q22. 勝手にアイデア提案</span>
+                            </div>
+                        </div>
+                        <h4 class="text-sm font-bold text-slate-800 mb-1">独自の強みを応用した「新企画・事業」を勝手に提案しよう！</h4>
+                        <button type="button" onclick="toggleHint('hint-q-29')" class="text-[10px] text-orange-600 hover:text-orange-800 font-bold focus:outline-none flex items-center gap-1 mb-2 no-print"><i class="fa-regular fa-lightbulb"></i> ヒント（マルヤの例）</button>
+                        <div id="hint-q-29" class="hidden text-xs bg-amber-50 text-amber-900 border border-amber-200 rounded-lg p-3 mb-3 leading-relaxed no-print">
+                            <strong>💡 スーパー「マルヤ」の記入ヒント：</strong><br>
+                            【新事業のネーミング案】：『マルヤ・リビング・コネクト車（おしゃべり健康ひろばカー）』<br>
+                            【内容】単にお年寄りの家に食品を売る移動販売だけでなく、車内に「手軽な立ち話お茶スペース」と「簡単な自動健康診断」を合体させたトラックを作り、地域を笑顔にする。
+                        </div>
+                        <!-- Expanded Textarea row sizing to h-32 for better digital typing depth -->
+                        <textarea id="q-29" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2.5 text-xs text-slate-800 focus:outline-none focus:border-orange-500 focus:bg-white h-32" placeholder="新事業のネーミング案と、それをどのように実現するか（アイデア・作戦）"></textarea>
+                        <!-- Changed: Expanded handwritings dotted rows to 10 lines to support extensive handwritten essays -->
+                        <div class="only-print print-lines-group-large">
+                            <div class="print-line-dotted"></div>
+                            <div class="print-line-dotted"></div>
+                            <div class="print-line-dotted"></div>
+                            <div class="print-line-dotted"></div>
+                            <div class="print-line-dotted"></div>
+                            <div class="print-line-dotted"></div>
+                            <div class="print-line-dotted"></div>
+                            <div class="print-line-dotted"></div>
+                            <div class="print-line-dotted"></div>
+                            <div class="print-line-dotted"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- CONSOLIDATION / SUMMARY VIEW OVERLAY -->
+    <section id="summary-view" class="fixed inset-0 z-50 bg-slate-50 overflow-y-auto hidden">
+        <div class="max-w-5xl mx-auto px-6 py-10 space-y-8">
+            
+            <!-- Summary Header Controls -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 border-b border-slate-200 pb-6 no-print">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-black text-slate-900">発表用テキスト整理ボード</h1>
+                        <p class="text-xs text-slate-500">ワークシートに書かれた内容をスライド作成用にコンパイルしました。この画面から印刷（PDF出力）も可能です。</p>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="window.print()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-black rounded-lg shadow transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-file-pdf"></i> PDF・印刷用に出力する
+                    </button>
+                    <button onclick="toggleSummaryView()" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-black rounded-lg transition-all">
+                        編集に戻る
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile Overview (Compact Header) -->
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-4 gap-4 print-bg-force">
+                <div>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">学校名・クラス</span>
+                    <p id="sum-meta-school" class="text-sm font-extrabold text-slate-800">-</p>
+                </div>
+                <div>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">氏名</span>
+                    <p id="sum-meta-name" class="text-sm font-extrabold text-slate-800">-</p>
+                </div>
+                <div>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">同行者名</span>
+                    <p id="sum-meta-companions" class="text-sm font-extrabold text-slate-800">-</p>
+                </div>
+                <div>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase">調査日</span>
+                    <p id="sum-meta-date" class="text-sm font-extrabold text-slate-800">-</p>
+                </div>
+            </div>
+
+            <!-- Compiled Cards divided by presentation slide target -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="summary-cards-container">
+                <!-- Dynamically generated compile items go here via JS -->
+            </div>
+
+            <!-- Back to edit at the bottom -->
+            <div class="text-center pt-6 no-print">
+                <button onclick="toggleSummaryView()" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-black transition-all">
+                    ワークシート編集画面へ戻る
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CUSTOM CONFIRMATION DIALOG MODAL -->
+    <div id="reset-dialog" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center hidden no-print">
+        <div class="bg-white rounded-2xl border border-slate-200 p-6 max-w-sm w-full mx-4 shadow-xl">
+            <div class="flex items-center gap-3 text-rose-500 mb-4">
+                <i class="fa-solid fa-triangle-exclamation text-2xl animate-bounce"></i>
+                <h3 class="font-black text-lg text-slate-900">データの初期化確認</h3>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed mb-6">
+                これまでに入力したすべてのデータが削除されます。この操作は取り消せません。本当によろしいですか？
+            </p>
+            <div class="flex gap-2 justify-end text-xs">
+                <button onclick="hideResetDialog()" class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition-all">
+                    キャンセル
+                </button>
+                <button onclick="executeClearAllData()" class="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-white font-black transition-all">
+                    はい、消去します
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER DESIGN -->
+    <footer class="mt-20 border-t border-slate-200 bg-white py-12 text-center text-slate-500 text-xs no-print">
+        <div class="max-w-7xl mx-auto px-6 space-y-4">
+            <p>© 2026 Internship Decipher Quest Program. Created for ambitious students.</p>
+            <p class="text-[10px] text-slate-400">本システムは、インターンシップ体験を最高効率でパワーポイント発表資料に繋げるための完全連動型ワークブックです。</p>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        let sfxEnabled = true;
+
+        // Sound generator utilizing native Web Audio API
+        function playBeep(freq, duration) {
+            if (!sfxEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                
+                gain.gain.setValueAtTime(0.08, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+                
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch(e) {
+                console.log("Audio contextual restrictions applied.");
+            }
+        }
+
+        // Chime for successful state level ups
+        function playLevelUpChime() {
+            if (!sfxEnabled) return;
+            const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+            notes.forEach((freq, idx) => {
+                setTimeout(() => playBeep(freq, 0.15), idx * 100);
+            });
+        }
+
+        // Toggle hint boxes beautifully inline
+        function toggleHint(hintId) {
+            const hintBox = document.getElementById(hintId);
+            if (hintBox) {
+                hintBox.classList.toggle('hidden');
+                playBeep(700, 0.05);
+            }
+        }
+
+        // Filters UI layout elements according to phase classifications
+        function setPhaseFilter(phase) {
+            const cards = document.querySelectorAll('.phase-highlight');
+            const buttons = {
+                'all': document.getElementById('btn-phase-all'),
+                'pre': document.getElementById('btn-phase-pre'),
+                'pre-post': document.getElementById('btn-phase-pre-post'),
+                'post': document.getElementById('btn-phase-post')
+            };
+
+            // Remove styling from all buttons
+            Object.values(buttons).forEach(btn => {
+                if (btn) {
+                    btn.className = "px-3 py-1.5 rounded-lg transition-all text-slate-600 hover:text-indigo-600";
+                }
+            });
+
+            // Set active class on target button
+            if (buttons[phase]) {
+                buttons[phase].className = "px-3 py-1.5 rounded-lg transition-all bg-indigo-600 text-white shadow-sm";
+            }
+
+            // Loop cards and dim inactive ones
+            cards.forEach(card => {
+                if (phase === 'all') {
+                    card.classList.remove('dimmed');
+                } else {
+                    const cardPhase = card.getAttribute('data-phase');
+                    if (cardPhase === phase) {
+                        card.classList.remove('dimmed');
+                    } else {
+                        card.classList.add('dimmed');
+                    }
+                }
+            });
+
+            playBeep(600, 0.08);
+        }
+
+        // Automatic progress tracking & rank assignment
+        function calculateOverallProgress() {
+            const inputs = document.querySelectorAll('#workspace-main input[type="text"], #workspace-main textarea');
+            const checkboxes = document.querySelectorAll('#workspace-main input[type="checkbox"]');
+            
+            let totalWeights = inputs.length + checkboxes.length;
+            let filledWeights = 0;
+
+            inputs.forEach(input => {
+                if (input.value.trim() !== "") {
+                    filledWeights++;
+                }
+            });
+
+            checkboxes.forEach(chk => {
+                if (chk.checked) {
+                    filledWeights++;
+                }
+            });
+
+            const percentage = Math.round((filledWeights / totalWeights) * 100);
+
+            // DOM UI updates
+            const progressPctEl = document.getElementById('progress-pct');
+            const progressFillEl = document.getElementById('progress-fill');
+            if (progressPctEl) progressPctEl.innerText = percentage + '%';
+            if (progressFillEl) progressFillEl.style.width = percentage + '%';
+
+            // Calculate student ranks based on criteria levels
+            let rankStr = "未記入";
+            if (percentage >= 95) {
+                rankStr = "マスターコンサルタント 🏆";
+            } else if (percentage >= 70) {
+                rankStr = "プロ調査官 🕵️‍♂️";
+            } else if (percentage >= 35) {
+                rankStr = "アシスタント・エージェント";
+            } else if (percentage >= 10) {
+                rankStr = "エージェント Lv.1";
+            }
+
+            const currentRankText = document.getElementById('rank-text');
+            if (currentRankText) {
+                if (currentRankText.innerText !== rankStr && percentage > 10) {
+                    playLevelUpChime();
+                }
+                currentRankText.innerText = rankStr;
+            }
+        }
+
+        // Save data to localStorage (Auto-save utility)
+        function autoSaveFormData() {
+            const inputs = document.querySelectorAll('input[type="text"], textarea');
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const saveData = {};
+
+            inputs.forEach(input => {
+                saveData[input.id] = input.value;
+            });
+
+            checkboxes.forEach(chk => {
+                saveData[chk.id] = chk.checked;
+            });
+
+            localStorage.setItem('internship_dissection_worksheet_data_v2', JSON.stringify(saveData));
+            calculateOverallProgress();
+        }
+
+        // Load data from localStorage on load
+        function loadSavedFormData() {
+            const rawData = localStorage.getItem('internship_dissection_worksheet_data_v2');
+            if (!rawData) return;
+
+            try {
+                const parsed = JSON.parse(rawData);
+                const inputs = document.querySelectorAll('input[type="text"], textarea');
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+                inputs.forEach(input => {
+                    if (parsed[input.id] !== undefined) {
+                        input.value = parsed[input.id];
+                    }
+                });
+
+                checkboxes.forEach(chk => {
+                    if (parsed[chk.id] !== undefined) {
+                        chk.checked = parsed[chk.id];
+                    }
+                });
+
+                calculateOverallProgress();
+            } catch (e) {
+                console.error("Failed to restore saved state data.");
+            }
+        }
+
+        // Reset overlays/modals
+        function showResetDialog() {
+            document.getElementById('reset-dialog').classList.remove('hidden');
+            playBeep(400, 0.1);
+        }
+
+        // Hide resets
+        function hideResetDialog() {
+            document.getElementById('reset-dialog').classList.add('hidden');
+        }
+
+        // Clears storage
+        function executeClearAllData() {
+            const inputs = document.querySelectorAll('input[type="text"], textarea');
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+            inputs.forEach(input => input.value = "");
+            checkboxes.forEach(chk => chk.checked = false);
+
+            localStorage.removeItem('internship_dissection_worksheet_data_v2');
+            calculateOverallProgress();
+            hideResetDialog();
+            playBeep(300, 0.3);
+        }
+
+        // Form compilation to slide summary list
+        function toggleSummaryView() {
+            const workspace = document.getElementById('workspace-main');
+            const summary = document.getElementById('summary-view');
+            const isHidden = summary.classList.contains('hidden');
+
+            if (isHidden) {
+                // Populate summary view
+                summary.classList.remove('hidden');
+                workspace.classList.add('hidden');
+                document.body.classList.add('bg-white');
+                document.body.classList.remove('bg-slate-50');
+                
+                // Copy metadata
+                document.getElementById('sum-meta-school').innerText = document.getElementById('meta-school').value || '未設定';
+                document.getElementById('sum-meta-name').innerText = document.getElementById('meta-name').value || '未設定';
+                document.getElementById('sum-meta-companions').innerText = document.getElementById('meta-companions').value || '未設定';
+                document.getElementById('sum-meta-date').innerText = document.getElementById('meta-date').value || '未設定';
+
+                generateSummaryCards();
+                playBeep(880, 0.15);
+            } else {
+                summary.classList.add('hidden');
+                workspace.classList.remove('hidden');
+                document.body.classList.add('bg-slate-50');
+                document.body.classList.remove('bg-white');
+                playBeep(600, 0.1);
+            }
+        }
+
+        // Fallback robust copy to clipboard method
+        function fallbackCopyToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                console.error('Fallback copy failed', err);
+            }
+            document.body.removeChild(textArea);
+        }
+
+        // Visual triggers for copying cards to slide inputs
+        function copySection(id, btn) {
+            const textElement = document.getElementById(id);
+            if (textElement) {
+                fallbackCopyToClipboard(textElement.innerText);
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> コピー完了';
+                btn.classList.add('bg-emerald-500', 'text-white');
+                btn.classList.remove('bg-slate-100', 'text-slate-600');
+                playBeep(1000, 0.1);
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('bg-emerald-500', 'text-white');
+                    btn.classList.add('bg-slate-100', 'text-slate-600');
+                }, 1500);
+            }
+        }
+
+        // Dynamically creates presentation slide categories
+        function generateSummaryCards() {
+            const container = document.getElementById('summary-cards-container');
+            container.innerHTML = '';
+
+            const slideData = [
+                {
+                    title: "スライド1〜2: 表紙・会社・組織の概要",
+                    description: "基本プロフィール情報",
+                    id: "slide-p-1",
+                    color: "border-indigo-500",
+                    items: [
+                        { label: "会社・組織の正式名称", value: document.getElementById('q-1').value },
+                        { label: "所在地", value: document.getElementById('q-2').value },
+                        { label: "メンバー数", value: document.getElementById('q-4').value },
+                        { label: "創業・設立時期", value: document.getElementById('q-6').value },
+                        { label: "理念・想い", value: document.getElementById('q-7').value }
+                    ]
+                },
+                {
+                    title: "スライド3: 私たちの仮説と検証 (存在意義)",
+                    description: "事前予想と実際に見つけた目的・提供価値",
+                    id: "slide-p-2",
+                    color: "border-amber-500",
+                    items: [
+                        { label: "存在意義 [事前予想]", value: document.getElementById('q-8-pre').value },
+                        { label: "存在意義 [当日の答え合わせ]", value: document.getElementById('q-8-post').value },
+                        { label: "年間のスケジュール（キーシーズン）", value: `[予想] ${document.getElementById('q-15-pre').value} / [事実] ${document.getElementById('q-15-post').value}` }
+                    ]
+                },
+                {
+                    title: "スライド4: 価値を生む３つの歯車 (Input / Process / Output)",
+                    description: "仕入れから技術、それて届ける先までの構造",
+                    id: "slide-p-3",
+                    color: "border-amber-600",
+                    items: [
+                        { label: "インプット (仕入れ)", value: `[予想] ${document.getElementById('q-9-pre').value} \n[事実] ${document.getElementById('q-9-post').value}` },
+                        { label: "プロセス (加工・工夫)", value: `[予想] ${document.getElementById('q-10-pre').value} \n[事実] ${document.getElementById('q-10-post').value}` },
+                        { label: "アウトプット (お困りごと解決・届ける先)", value: `[予想] ${document.getElementById('q-11-pre').value} \n[事実] ${document.getElementById('q-11-post').value}` }
+                    ]
+                },
+                {
+                    title: "スライド5: 独自の強みと外部制限 (競合・法律)",
+                    description: "持続するための強さと運営ルール",
+                    id: "slide-p-4",
+                    color: "border-emerald-500",
+                    items: [
+                        { label: "ライバル（競合）に負けない独自の強み", value: document.getElementById('q-12').value },
+                        { label: "運営資金とコスト", value: document.getElementById('q-13').value },
+                        { label: "絶対に守らなければならない法律・制限", value: `[予想] ${document.getElementById('q-14-pre').value} \n[事実] ${document.getElementById('q-14-post').value}` }
+                    ]
+                },
+                {
+                    title: "スライド6: チームを支えるプロの職種 (役割・技術)",
+                    description: "仕事バトンパスとプロの道具",
+                    id: "slide-p-5",
+                    color: "border-emerald-600",
+                    items: [
+                        { label: "お客様や利用者から見える仕事", value: `[予想] ${document.getElementById('q-16-pre').value} \n[事実] ${document.getElementById('q-16-post').value}` },
+                        { label: "裏方の仕事", value: `[予想] ${document.getElementById('q-17-pre').value} \n[事実] ${document.getElementById('q-17-post').value}` },
+                        { label: "専門職", value: `[予想] ${document.getElementById('q-18-pre').value} \n[事実] ${document.getElementById('q-18-post').value}` },
+                        { label: "チーム間のバトンリレーの工夫", value: document.getElementById('q-19').value },
+                        { label: "プロの道具・お約束・業界用語", value: `道具：${document.getElementById('q-20').value} (${document.getElementById('q-21').value})\n用語・規律：${document.getElementById('q-22').value} (${document.getElementById('q-23').value})` }
+                    ]
+                },
+                {
+                    title: "スライド7: 社員インタビューとマインド",
+                    description: "大人のやりがい、ピンチの乗り越え方",
+                    id: "slide-p-6",
+                    color: "border-rose-500",
+                    items: [
+                        { label: "プロの誇り（共通マインド・必要な力）", value: `マインド：${document.getElementById('q-24').value} \n必要な力：${document.getElementById('q-25').value}` },
+                        { label: "やりがいを感じる瞬間", value: document.getElementById('q-26-joy').value },
+                        { label: "辛い困難を乗り越えたプロの知恵", value: document.getElementById('q-26-pain').value }
+                    ]
+                },
+                {
+                    title: "スライド8: 10年後のピンチと勝手なアイデア提案",
+                    description: "未来の課題と自分たちが考える勝手な突破策",
+                    id: "slide-p-7",
+                    color: "border-orange-500",
+                    items: [
+                        { label: "10年後の大ピンチ [技術革新]", value: document.getElementById('q-28-tech').value },
+                        { label: "10年後の大ピンチ [人口減少]", value: document.getElementById('q-28-population').value },
+                        { label: "10年後の大ピンチ [環境対応]", value: document.getElementById('q-28-env').value },
+                        { label: "勝手にアイデア提案", value: document.getElementById('q-29').value }
+                    ]
+                },
+                {
+                    title: "スライド9: まとめ・私のキャリア宣言",
+                    description: "学んだプロの姿勢と明日からの行動変容",
+                    id: "slide-p-8",
+                    color: "border-indigo-600",
+                    items: [
+                        { label: "自分とのマッチ・ワクワクした重なり", value: document.getElementById('q-27-match').value },
+                        { label: "明日からの具体的な行動宣言", value: document.getElementById('q-27-action').value }
+                    ]
+                }
+            ];
+
+            slideData.forEach(slide => {
+                const card = document.createElement('div');
+                card.className = `bg-white p-6 rounded-2xl border-l-4 ${slide.color} shadow-sm space-y-4 print-bg-force`;
+                
+                let itemsHtml = '';
+                slide.items.forEach(it => {
+                    itemsHtml += `
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-400 block">${it.label}</span>
+                            <p class="text-xs font-semibold text-slate-800 whitespace-pre-line mt-1">${it.value || '未記入'}</p>
+                        </div>
+                    `;
+                });
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between border-b border-slate-100 pb-3">
+                        <div>
+                            <h3 class="text-sm font-black text-slate-900">${slide.title}</h3>
+                            <p class="text-[10px] text-slate-400 font-medium">${slide.description}</p>
+                        </div>
+                        <button onclick="copySection('${slide.id}', this)" class="px-2.5 py-1 rounded-md bg-slate-100 hover:bg-indigo-50 text-slate-600 hover:text-indigo-600 text-[10px] font-bold transition-all flex items-center gap-1 no-print">
+                            <i class="fa-solid fa-copy"></i> コピー
+                        </button>
+                    </div>
+                    <div id="${slide.id}" class="space-y-3">
+                        ${itemsHtml}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Print handler context adaptation
+        function triggerPrint() {
+            window.print();
+        }
+
+        // Initialization binding listeners
+        window.onload = function() {
+            loadSavedFormData();
+
+            // Ensure school defaults to Matsukawa if empty
+            const schoolInput = document.getElementById('meta-school');
+            if (schoolInput && (!schoolInput.value || schoolInput.value.trim() === "")) {
+                schoolInput.value = "長野県松川高等学校";
+            }
+
+            // Bind listeners for input components
+            const allElements = document.querySelectorAll('input, textarea');
+            allElements.forEach(el => {
+                el.addEventListener('input', autoSaveFormData);
+                el.addEventListener('change', autoSaveFormData);
+            });
+        }
+    </script>
+</body>
+</html>
