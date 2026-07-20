@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>長野県 企業当てクイズ！</title>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    /* ほんわかデザインのCSS */
+    body {
+        font-family: 'Zen Maru Gothic', sans-serif;
+        background-color: #fffaf0; /* 優しいクリーム色 */
+        color: #5c4a3d; /* 温かみのあるブラウン */
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    #app {
+        background-color: #ffffff;
+        width: 100%;
+        max-width: 600px;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 8px 24px rgba(200, 180, 160, 0.2);
+        border: 4px solid #ffe4e1; /* ミスティローズ */
+        text-align: center;
+    }
+
+    h1, h2 {
+        color: #ff9fb4; /* 柔らかいピンク */
+        margin-bottom: 20px;
+    }
+
+    p {
+        line-height: 1.6;
+        font-size: 1.1em;
+    }
+
+    .description-box {
+        background-color: #f5fffa; /* ミントクリーム */
+        border: 2px dashed #98fb98;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .btn {
+        background-color: #ffb6c1;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        font-size: 1.1em;
+        font-family: 'Zen Maru Gothic', sans-serif;
+        font-weight: bold;
+        border-radius: 30px;
+        cursor: pointer;
+        box-shadow: 0 4px 0 #ff91a4;
+        transition: all 0.2s;
+        margin: 10px;
+        width: 80%;
+        max-width: 400px;
+    }
+
+    .btn:hover {
+        background-color: #ffc2cc;
+    }
+
+    .btn:active {
+        transform: translateY(4px);
+        box-shadow: none;
+    }
+
+    .btn-submit {
+        background-color: #87cefa;
+        box-shadow: 0 4px 0 #5cacee;
+    }
+    .btn-submit:hover { background-color: #9cd5ff; }
+
+    .hidden {
+        display: none;
+    }
+
+    /* 一覧・解説用の共通スクロールボックス */
+    .ans-list {
+        text-align: left;
+        max-height: 350px;
+        overflow-y: auto;
+        background: #fafafa;
+        padding: 15px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
+    }
+    .ans-item {
+        margin-bottom: 15px;
+        border-bottom: 1px dashed #e0e0e0;
+        padding-bottom: 10px;
+    }
+    .ans-item:last-child { border: none; }
+    .ans-title {
+        font-weight: bold;
+        color: #ff69b4;
+    }
+
+    /* Q2 ドロップダウン */
+    .select-box {
+        margin: 15px 0;
+        font-size: 1.1em;
+    }
+    select {
+        font-family: 'Zen Maru Gothic', sans-serif;
+        font-size: 1em;
+        padding: 5px 10px;
+        border-radius: 8px;
+        border: 2px solid #ffb6c1;
+        color: #5c4a3d;
+        background-color: #fffaf0;
+    }
+
+    /* Q3 チェックボックス */
+    .checkbox-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+    .checkbox-item label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        background: #fff0f5;
+        padding: 10px;
+        border-radius: 10px;
+        border: 2px solid transparent;
+        transition: 0.2s;
+    }
+    .checkbox-item label:hover {
+        border-color: #ffb6c1;
+    }
+    .checkbox-item input {
+        margin-right: 10px;
+        transform: scale(1.2);
+    }
+
+    /* 結果画面 */
+    .score-display {
+        font-size: 3em;
+        font-weight: bold;
+        color: #ff69b4;
+        margin: 20px 0;
+    }
+    .comment-box {
+        background-color: #fffacd;
+        padding: 20px;
+        border-radius: 15px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+</style>
+</head>
+<body>
+
+<div id="app">
+    <!-- トップ画面 -->
+    <div id="screen-top">
+        <h1>企業当てクイズ！</h1>
+        <p>長野県で活躍する企業や産業についてのクイズです。<br>これから出るクイズに挑戦してみましょう！</p>
+        <button class="btn" onclick="startQuiz()">始める</button>
+    </div>
+
+    <!-- 第一問 クイズ画面 -->
+    <div id="screen-q1" class="hidden">
+        <h2>第一問 (<span id="q1-current">1</span>/14)</h2>
+        <p>以下の説明に当てはまる企業を選んでね！</p>
+        <div class="description-box" id="q1-desc"></div>
+        <div id="q1-choices"></div>
+    </div>
+
+    <!-- 第一問 正解一覧画面 -->
+    <div id="screen-q1-answers" class="hidden">
+        <h2>第一問 正解一覧発表！</h2>
+        <p>登場した14社の正解データだよ。確認してみよう！</p>
+        <div class="ans-list" id="q1-answers-list"></div>
+        <button class="btn btn-submit" onclick="goToQ2()">第二問へ進む</button>
+    </div>
+
+    <!-- 第二問 -->
+    <div id="screen-q2" class="hidden">
+        <h2>第二問</h2>
+        <p>長野県内の味噌メーカーである<b>「マルコメ」「ハナマルキ」「ひかり味噌」</b>の3社を、売上高（生産量）の大きい順に並べ替えてください。</p>
+        <div class="select-box">1位： <select id="q2-rank1"></select></div>
+        <div class="select-box">2位： <select id="q2-rank2"></select></div>
+        <div class="select-box">3位： <select id="q2-rank3"></select></div>
+        <button class="btn btn-submit" onclick="checkQ2()">回答する</button>
+    </div>
+
+    <!-- 第二問 回答表示画面 -->
+    <div id="screen-q2-answers" class="hidden">
+        <h2>第二問 正解発表！</h2>
+        <p>味噌メーカーの売上高（生産量）の正解はこちら！</p>
+        <div class="ans-list" style="text-align: center; font-size: 1.2em; line-height: 2;">
+            <b>1位：マルコメ</b><br>
+            <b>2位：ハナマルキ</b><br>
+            <b>3位：ひかり味噌</b>
+        </div>
+        <button class="btn btn-submit" onclick="goToQ3()">第三問へ進む</button>
+    </div>
+
+    <!-- 第三問 -->
+    <div id="screen-q3" class="hidden">
+        <h2>第三問</h2>
+        <p>この中から、長野県が<b>生産量全国一位</b>のものを<strong>５つ</strong>選びなさい。（5つ選ぶとボタンが押せます）</p>
+        <div class="checkbox-grid" id="q3-choices"></div>
+        <button class="btn btn-submit" id="btn-q3-submit" onclick="checkQ3()" disabled>回答する</button>
+    </div>
+
+    <!-- 第三問 解説画面 -->
+    <div id="screen-q3-explanation" class="hidden">
+        <h2>第三問 正解と解説！</h2>
+        <div class="ans-list">
+            <p><strong>有力な企業が存在すると、生産量が圧倒的に増える</strong>という特徴があります！長野県が全国1位の分野と代表的な企業はこちら：</p>
+            <ul style="padding-left: 20px; line-height: 1.8;">
+                <li><strong>真空ポンプ：</strong>樫山工業（佐久市） オリオン機械（須坂市）</li>
+                <li><strong>印刷機械：</strong>エプソン（諏訪市） ミマキエンジニアリング（東御市）</li>
+                <li><strong>ギター：</strong>モーリス楽器製造（松本市） フジゲン（松本市）</li>
+                <li><strong>電気測定器：</strong>HIOKI（上田市） 長野計器（上田市） ニデックインスツルメンツ</li>
+                <li><strong>加工用トマト：</strong>カゴメ ゴールドパック ナガノトマト</li>
+            </ul>
+        </div>
+        <button class="btn btn-submit" style="background-color: #ff69b4; box-shadow: 0 4px 0 #db4393;" onclick="goToResult()">合計点は・・・</button>
+    </div>
+
+    <!-- 結果画面 -->
+    <div id="screen-result" class="hidden">
+        <h2>クイズ終了！お疲れ様でした♪</h2>
+        <p>あなたの得点は...</p>
+        <div class="score-display"><span id="final-score"></span>点</div>
+        <div class="comment-box" id="result-comment"></div>
+    </div>
+</div>
+
+<script>
+// --- データ定義 ---
+
+// 第一問の企業データ
+const q1Pairs = [
+    [{name: "井坪工務店", desc: "木造の注文住宅を建てる地域工務店です。「伝え続ける技、受け継がれる心」で、信州伊那谷の風土にあった住む人に優しい日本の家を作ります。"},
+     {name: "小木曽建設", desc: "自社アスコンプラントで土木・舗装からアスファルトリサイクルまで手がける百年の建設会社。"}],
+    [{name: "津具屋製菓", desc: "どら焼きやカステラ、きんつばなど和菓子を製造する老舗。素材にこだわり、伝統の味や地域特有の味に現代のニーズをプラスした「菓子文化」発信しています。"},
+     {name: "南信州菓子工房", desc: "半生ドライフルーツを独自技術で製造し、国産ドライフルーツ菓子で全国トップシェアを誇る2012年創業の企業。"}],
+    [{name: "ニシザワ", desc: "スーパーマーケットを中心に、多様な業態を展開。県内のBOOKOFFも運営。"},
+     {name: "ツルヤ", desc: "地域密密着のスーパーマーケット。強力なPB商品と長野・群馬などの店舗網で、長野県内の小売業の中では売り上げトップ。"}],
+    [{name: "アルピコホテルズ", desc: "長野県内で６つの施設を運営。ビジネスホテルから、高原のリゾートホテルまで幅広い顧客層を取り込む。"},
+     {name: "天心昼神グランドホテル", desc: "年間約4万人の宿泊を受け入れ、個人客から各種団体まで受け入れ。多彩な浴槽を備えた庭園露天風呂で、至福の湯浴み体験が自慢。"}],
+    [{name: "輝山会記念病院", desc: "飯田市の広域医療法人で、透析・健診・リハビリ・在宅医療を三位一体で担うかかりつけ病院。総合健診センターや保育園を併設する施設も運営。"},
+     {name: "JA長野厚生連", desc: "県内最大・病床約3600床・職員約9000人の公的医療機関。病院経営だけでなく、介護施設も幅広く展開。"}],
+    [{name: "多摩川精機", desc: "飯田市の精密機器メーカー。センサやモータ・エンコーダで世界トップクラスのシェアを持ち宇宙航空分野にも供給。"},
+     {name: "IAM電子", desc: "駒ヶ根市で1967年創業、厚膜抵抗ネットワークやハイブリッドICを製造。"}],
+    [{name: "コーケン フード＆フレーバー", desc: "食品香料の製造と原材料のトータルソリューションを展開。キャラメルソース、エキス類、ドライフルーツ、FDのようにオリジナルの食品原料、また、5000種類を超す原料素材を取り扱う。"},
+     {name: "旭松食品", desc: "主力は高野豆腐。でも最近では手軽に食べることができるオートミールも大人気。"}]
+];
+
+let q1List = [];
+const allCompanies = [];
+q1Pairs.forEach(pair => {
+    pair[0].partner = pair[1].name;
+    pair[1].partner = pair[0].name;
+    q1List.push(pair[0], pair[1]);
+    allCompanies.push(pair[0].name, pair[1].name);
+});
+
+// 第二問データ
+const misoCompanies = ["マルコメ", "ハナマルキ", "ひかり味噌"];
+
+// 第三問データ（11個の選択肢に完全固定、印刷装置から仕様書の印刷機械表記に微修正）
+const q3Items = [
+    {name: "真空ポンプ", correct: true},
+    {name: "そば", correct: false},
+    {name: "フルート", correct: false},
+    {name: "とうがらし", correct: false},
+    {name: "印刷機械", correct: true},
+    {name: "野菜の漬物", correct: false},
+    {name: "ギター", correct: true},
+    {name: "なめこ", correct: false},
+    {name: "電気測定器", correct: true},
+    {name: "加工用トマト", correct: true},
+    {name: "りんご", correct: false}
+];
+
+
+// --- システム変数 ---
+let score = 0;
+let currentQ1Index = 0;
+const audio = new Audio("https://raw.githubusercontent.com/t3takahashit3-cell/0723matsukawa/main/quizbgm.mp3");
+audio.loop = false;
+
+// --- 共通ユーティリティ ---
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function switchScreen(hideId, showId) {
+    document.getElementById(hideId).classList.add('hidden');
+    document.getElementById(showId).classList.remove('hidden');
+}
+
+
+// --- 進行ロジック ---
+
+// スタート
+function startQuiz() {
+    audio.play().catch(e => console.log("Audio play prevented by browser:", e));
+    shuffleArray(q1List);
+    switchScreen('screen-top', 'screen-q1');
+    renderQ1();
+}
+
+// 第一問 クイズ表示
+function renderQ1() {
+    document.getElementById('q1-current').textContent = currentQ1Index + 1;
+    const currentQ = q1List[currentQ1Index];
+    document.getElementById('q1-desc').textContent = currentQ.desc;
+
+    let choices = [currentQ.name, currentQ.partner];
+    let others = shuffleArray(allCompanies.filter(c => c !== currentQ.name && c !== currentQ.partner));
+    choices.push(others[0], others[1], others[2]);
+    choices = shuffleArray(choices);
+
+    const choicesContainer = document.getElementById('q1-choices');
+    choicesContainer.innerHTML = '';
+    choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'btn';
+        btn.textContent = choice;
+        btn.onclick = () => checkQ1(choice, currentQ.name);
+        choicesContainer.appendChild(btn);
+    });
+}
+
+// 第一問 判定
+function checkQ1(selected, correct) {
+    if (selected === correct) {
+        score += 5;
+    }
+    currentQ1Index++;
+    if (currentQ1Index < 14) {
+        renderQ1();
+    } else {
+        showQ1Answers();
+    }
+}
+
+// 第一問 正解発表
+function showQ1Answers() {
+    switchScreen('screen-q1', 'screen-q1-answers');
+    const listContainer = document.getElementById('q1-answers-list');
+    listContainer.innerHTML = '';
+
+    const sortedList = [...q1List].sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+    sortedList.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'ans-item';
+        div.innerHTML = `
+            <div class="ans-title">【${item.name}】</div>
+            <div>${item.desc}</div>
+        `;
+        listContainer.appendChild(div);
+    });
+}
+
+function goToQ2() {
+    switchScreen('screen-q1-answers', 'screen-q2');
+    renderQ2();
+}
+
+// 第二問 表示
+function renderQ2() {
+    const selects = ['q2-rank1', 'q2-rank2', 'q2-rank3'];
+    selects.forEach(id => {
+        const select = document.getElementById(id);
+        select.innerHTML = '<option value="">選択してください</option>';
+        
+        let options = shuffleArray([...misoCompanies]);
+        options.forEach(company => {
+            const opt = document.createElement('option');
+            opt.value = company;
+            opt.textContent = company;
+            select.appendChild(opt);
+        });
+    });
+}
+
+// 第二問 判定＆回答表示
+function checkQ2() {
+    const r1 = document.getElementById('q2-rank1').value;
+    const r2 = document.getElementById('q2-rank2').value;
+    const r3 = document.getElementById('q2-rank3').value;
+    
+    if(!r1 || !r2 || !r3) {
+        alert("1位から3位まで全て選択してね！");
+        return;
+    }
+    
+    if (r1 === "マルコメ" && r2 === "ハナマルキ" && r3 === "ひかり味噌") {
+        score += 5;
+    }
+    
+    switchScreen('screen-q2', 'screen-q2-answers');
+}
+
+function goToQ3() {
+    switchScreen('screen-q2-answers', 'screen-q3');
+    renderQ3();
+}
+
+// 第三問 表示
+function renderQ3() {
+    const container = document.getElementById('q3-choices');
+    container.innerHTML = '';
+    const items = shuffleArray([...q3Items]);
+    
+    items.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'checkbox-item';
+        div.innerHTML = `
+            <label>
+                <input type="checkbox" value="${item.name}" data-correct="${item.correct}" onchange="handleQ3Check()">
+                ${item.name}
+            </label>
+        `;
+        container.appendChild(div);
+    });
+}
+
+function handleQ3Check() {
+    const checkboxes = document.querySelectorAll('#q3-choices input[type="checkbox"]');
+    const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+    const btnSubmit = document.getElementById('btn-q3-submit');
+
+    checkboxes.forEach(cb => {
+        if (!cb.checked) {
+            cb.disabled = checkedCount >= 5;
+        }
+    });
+
+    btnSubmit.disabled = checkedCount !== 5;
+}
+
+// 第三問 判定＆解説画面へ
+function checkQ3() {
+    const checkboxes = document.querySelectorAll('#q3-choices input[type="checkbox"]:checked');
+    checkboxes.forEach(cb => {
+        if (cb.dataset.correct === "true") {
+            score += 5;
+        }
+    });
+    
+    switchScreen('screen-q3', 'screen-q3-explanation');
+}
+
+// 最終結果画面へ
+function goToResult() {
+    switchScreen('screen-q3-explanation', 'screen-result');
+    showResult();
+}
+
+// 結果の評価出力
+function showResult() {
+    document.getElementById('final-score').textContent = score;
+    const commentBox = document.getElementById('result-comment');
+    
+    let comment = "";
+    if (score >= 0 && score <= 30) {
+        comment = "これからたくさん知っていけば大丈夫！🌱<br>長野県の企業に少しずつ興味を持ってみてね♪";
+    } else if (score >= 31 && score <= 60) {
+        comment = "いい調子！✨<br>長野県には面白い企業がいっぱいあるよ。次はもっと正解できるはず！";
+    } else if (score >= 61 && score <= 90) {
+        comment = "すごい！🌟<br>長野県の企業についてかなり詳しいね！将来の就職先候補が見つかるかも？";
+    } else if (score >= 91 && score <= 100) {
+        comment = "パーフェクト級！👑<br>長野県企業の達人だね！キミの知識に拍手喝采！！";
+    }
+    
+    commentBox.innerHTML = comment;
+}
+
+</script>
+</body>
+</html>
