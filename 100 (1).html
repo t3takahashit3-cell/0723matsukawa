@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>インターンシップ解剖シート - 長野県松川高等学校</title>
+    
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #eef2ff;
+            --secondary: #0284c7;
+            --secondary-light: #f0f9ff;
+            --amber: #d97706;
+            --amber-light: #fffbeb;
+            --purple: #7c3aed;
+            --purple-light: #f5f3ff;
+            --emerald: #059669;
+            --emerald-light: #ecfdf5;
+            --slate-800: #1e293b;
+            --slate-600: #475569;
+            --slate-400: #94a3b8;
+            --slate-200: #e2e8f0;
+            --slate-100: #f1f5f9;
+            --bg-main: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans JP", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--slate-800);
+            line-height: 1.5;
+            padding: 1.5rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .school-badge {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+            background: var(--primary-light);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            display: inline-block;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--slate-800);
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--slate-100);
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .btn {
+            background: white;
+            border: 1px solid var(--slate-200);
+            color: var(--slate-600);
+            padding: 0.5rem 0.85rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: #4338ca;
+            color: white;
+        }
+
+        .btn-phase.active {
+            background: var(--slate-800);
+            color: white;
+            border-color: var(--slate-800);
+        }
+
+        .progress-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            background: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--slate-200);
+        }
+
+        .progress-bar-bg {
+            flex-grow: 1;
+            height: 0.75rem;
+            background: var(--slate-200);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            transition: width 0.3s ease;
+        }
+
+        .section-card {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .section-header {
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--slate-200);
+        }
+
+        .header-indigo { background: var(--primary-light); color: var(--primary); }
+        .header-amber { background: var(--amber-light); color: var(--amber); }
+        .header-sky { background: var(--secondary-light); color: var(--secondary); }
+        .header-purple { background: var(--purple-light); color: var(--purple); }
+        .header-emerald { background: var(--emerald-light); color: var(--emerald); }
+
+        .sec-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+        }
+
+        .section-body {
+            padding: 1.5rem;
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+        .grid-4 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+        .col-span-2 { grid-column: span 2; }
+        .col-span-3 { grid-column: span 3; }
+        .col-span-4 { grid-column: span 4; }
+
+        @media (max-width: 768px) {
+            .col-span-2, .col-span-3, .col-span-4 { grid-column: span 1; }
+        }
+
+        .q-card {
+            background: var(--bg-main);
+            border: 1px solid var(--slate-200);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .q-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .q-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 0.15rem 0.5rem;
+            border-radius: 0.35rem;
+        }
+
+        .lbl-indigo { background: var(--primary-light); color: var(--primary); }
+        .lbl-amber { background: var(--amber-light); color: var(--amber); }
+        .lbl-sky { background: var(--secondary-light); color: var(--secondary); }
+        .lbl-purple { background: var(--purple-light); color: var(--purple); }
+        .lbl-emerald { background: var(--emerald-light); color: var(--emerald); }
+
+        .q-heading {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--slate-800);
+        }
+
+        .btn-hint-trigger {
+            font-size: 0.75rem;
+            background: white;
+            border: 1px solid var(--slate-200);
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.35rem;
+            cursor: pointer;
+            color: var(--amber);
+            font-weight: 700;
+        }
+
+        .hint-box {
+            display: none;
+            background: #fff8f0;
+            border-left: 3px solid var(--amber);
+            padding: 0.65rem;
+            border-radius: 0.35rem;
+            font-size: 0.8rem;
+            color: #854d0e;
+            line-height: 1.4;
+        }
+
+        .hint-box.show { display: block; }
+        .hint-content { display: none; }
+        .hint-content.active { display: block; }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 0.65rem;
+            border: 1px solid var(--slate-200);
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            background: white;
+            color: var(--slate-800);
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .print-lines-group, .print-lines-group-large, .print-filled-display {
+            display: none;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .container {
+                max-width: 100%;
+            }
+            .section-card {
+                box-shadow: none;
+                border: 1px solid #cbd5e1;
+                margin-bottom: 1rem;
+                break-inside: avoid;
+            }
+            .q-card {
+                background: white;
+                border: 1px solid #cbd5e1;
+                break-inside: avoid;
+            }
+            input, textarea {
+                display: none !important;
+            }
+
+            .mode-print-blank .print-lines-group {
+                display: block;
+                margin-top: 0.5rem;
+            }
+            .mode-print-blank .print-lines-group-large {
+                display: block;
+                margin-top: 0.5rem;
+            }
+            .mode-print-blank .print-line-dotted {
+                height: 1.75rem;
+                border-bottom: 1px dotted #94a3b8;
+            }
+
+            .mode-print-filled .print-filled-display {
+                display: block;
+                padding: 0.5rem 0;
+                font-size: 0.9rem;
+                color: #0f172a;
+                font-weight: 600;
+                min-height: 2rem;
+            }
+        }
+
+        /* Modal styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-card {
+            background: white;
+            border-radius: 1rem;
+            max-width: 800px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="no-print">
+            <div class="header-top">
+                <div>
+                    <span class="school-badge">長野県松川高等学校 キャリア探究学習</span>
+                    <h1>インターンシップ解剖シート</h1>
+                </div>
+                <div class="btn-group">
+                    <button onclick="printBlank()" class="btn">🖨️ 白紙PDF/印刷</button>
+                    <button onclick="printFilled()" class="btn btn-primary">📝 入力済PDF/印刷</button>
+                    <button onclick="saveJSONData()" class="btn">💾 保存(JSON)</button>
+                    <label class="btn" style="margin:0;">📂 読込<input type="file" onchange="loadJSONData(event)" accept=".json" style="display:none;"></label>
+                    <button onclick="toggleSummaryModal()" class="btn">🧹 整理</button>
+                    <button onclick="clearFormData()" class="btn" style="color:#ef4444;">🗑️ クリア</button>
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <div class="btn-group">
+                    <span style="font-size:0.8rem; font-weight:700; align-self:center; margin-right:0.25rem;">フェーズ:</span>
+                    <button onclick="setPhaseFilter('all')" id="btn-phase-all" class="btn btn-phase active">全て</button>
+                    <button onclick="setPhaseFilter('pre')" id="btn-phase-pre" class="btn btn-phase">事前</button>
+                    <button onclick="setPhaseFilter('pre-post')" id="btn-phase-pre-post" class="btn btn-phase">事前・事後</button>
+                    <button onclick="setPhaseFilter('post')" id="btn-phase-post" class="btn btn-phase">事後</button>
+                </div>
+
+                <div class="btn-group">
+                    <span style="font-size:0.8rem; font-weight:700; align-self:center; margin-right:0.25rem;">ヒント例:</span>
+                    <button onclick="setHintTheme('supermarket')" id="btn-hint-theme-supermarket" class="btn btn-phase active">💡1:スーパー</button>
+                    <button onclick="setHintTheme('electronics')" id="btn-hint-theme-electronics" class="btn btn-phase">💡2:電子機器製造</button>
+                </div>
+            </div>
+
+            <div class="progress-container">
+                <span style="font-size:0.8rem; font-weight:700; color:var(--slate-600);">入力進捗:</span>
+                <div class="progress-bar-bg">
+                    <div id="progress-bar" class="progress-bar-fill"></div>
+                </div>
+                <span id="progress-text" style="font-size:0.85rem; font-weight:800; color:var(--primary);">0%</span>
+            </div>
+        </header>
+
+        <!-- USER PROFILE CARD -->
+        <section class="section-card">
+            <div class="section-header header-indigo">
+                <h2 class="sec-title">記入者プロフィール</h2>
+            </div>
+            <div class="section-body grid grid-3">
+                <div>
+                    <label style="font-size:0.75rem; font-weight:700; color:var(--slate-600); display:block; margin-bottom:0.25rem;">学校名</label>
+                    <input type="text" id="school_name" value="長野県松川高等学校" readonly style="background:#f1f5f9; font-weight:700;">
+                    <div class="print-filled-display" id="disp-school_name">長野県松川高等学校</div>
+                </div>
+                <div>
+                    <label style="font-size:0.75rem; font-weight:700; color:var(--slate-600); display:block; margin-bottom:0.25rem;">氏名（記入者）</label>
+                    <input type="text" id="student_name" placeholder="例: 松川 太郎" oninput="autoSaveFormData()">
+                    <div class="print-filled-display" id="disp-student_name"></div>
+                </div>
+                <div>
+                    <label style="font-size:0.75rem; font-weight:700; color:var(--slate-600); display:block; margin-bottom:0.25rem;">同行者名（グループメンバー）</label>
+                    <input type="text" id="group_members" placeholder="例: 信州 花子, 飯田 次郎" oninput="autoSaveFormData()">
+                    <div class="print-filled-display" id="disp-group_members"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 1: BASIC INFO -->
+        <section class="section-card">
+            <div class="section-header header-indigo">
+                <h2 class="sec-title">01. 基本情報（事前調査）</h2>
+                <span class="q-label lbl-indigo">Phase: 事前</span>
+            </div>
+            <div class="section-body grid grid-3">
+                <div class="q-card phase-card phase-pre">
+                    <div class="q-top">
+                        <span class="q-label lbl-indigo">Q1. 正式名称</span>
+                        <button onclick="toggleHint('hint-q1')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">会社・組織の正式名称は？</h3>
+                    <div id="hint-q1" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>「株式会社マルヤ」「スーパーマーケット マルヤ〇〇店」等。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>「信州電子株式会社」「株式会社〇〇テクノロジー 飯田工場」等。</div>
+                    </div>
+                    <input type="text" id="q1" placeholder="正式名称を入力..." oninput="autoSaveFormData()">
+                    <div class="print-filled-display" id="disp-q1"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre">
+                    <div class="q-top">
+                        <span class="q-label lbl-indigo">Q2. 所在地</span>
+                        <button onclick="toggleHint('hint-q2')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">所在地（住所・拠点の場所）は？</h3>
+                    <div id="hint-q2" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>「長野県飯田市〇〇町1-2-3」。店舗数も確認。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>「長野県伊那市〇〇1234」。国内工場や海外拠点も確認。</div>
+                    </div>
+                    <input type="text" id="q2" placeholder="住所や拠点数を入力..." oninput="autoSaveFormData()">
+                    <div class="print-filled-display" id="disp-q2"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre">
+                    <div class="q-top">
+                        <span class="q-label lbl-indigo">Q3. 組織分類</span>
+                        <button onclick="toggleHint('hint-q3')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">どのような組織に分類される？</h3>
+                    <div id="hint-q3" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>民間企業（小売業・食品スーパー）。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>民間企業（製造業・BtoB電子部品メーカー）。</div>
+                    </div>
+                    <input type="text" id="q3" placeholder="民間企業 / 公的機関 / NPOなど" oninput="autoSaveFormData()">
+                    <div class="print-filled-display" id="disp-q3"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre">
+                    <div class="q-top">
+                        <span class="q-label lbl-indigo">Q4. 規模感</span>
+                        <button onclick="toggleHint('hint-q4')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">メンバー数（従業員数）の規模は？</h3>
+                    <div id="hint-q4" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>全社約120名（うち店舗スタッフ約30名）等。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>工場全体で約250名（開発40名、製造150名）等。</div>
+                    </div>
+                    <input type="text" id="q4" placeholder="人数規模を入力..." oninput="autoSaveFormData()">
+                    <div class="print-filled-display" id="disp-q4"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre">
+                    <div class="q-top">
+                        <span class="q-label lbl-indigo">Q5. トップの方</span>
+                        <button onclick="toggleHint('hint-q5')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">トップのお名前と役職は？</h3>
+                    <div id="hint-q5" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>代表取締役社長「丸山 〇〇」様、店長様等。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>代表取締役社長「〇〇 〇〇」様、工場長様等。</div>
+                    </div>
+                    <input type="text" id="q5" placeholder="役職・お名前..." oninput="autoSaveFormData()">
+                    <div class="print-filled-display" id="disp-q5"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre">
+                    <div class="q-top">
+                        <span class="q-label lbl-indigo">Q6. 理念・スローガン</span>
+                        <button onclick="toggleHint('hint-q6')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">理念や大切にしている考え方は？</h3>
+                    <div id="hint-q6" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>「地域の食卓に安心と笑顔を」「地産地消で地域と共に」。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>「精密技術で世界のモノづくりを支える」「品質第一」。</div>
+                    </div>
+                    <input type="text" id="q6" placeholder="理念やキャッチコピー..." oninput="autoSaveFormData()">
+                    <div class="print-filled-display" id="disp-q6"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: BUSINESS OPERATION -->
+        <section class="section-card">
+            <div class="section-header header-amber">
+                <h2 class="sec-title">02. 事業運営（仕組みとビジネスの公式）</h2>
+                <span class="q-label lbl-amber">Phase: 事前・事後</span>
+            </div>
+            <div class="section-body grid grid-3">
+                <div class="q-card phase-card phase-pre-post">
+                    <div class="q-top">
+                        <span class="q-label lbl-amber">Q7. 仕入れ (Input)</span>
+                        <button onclick="toggleHint('hint-q7')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">何を集めて（仕入れて）活動する？</h3>
+                    <div id="hint-q7" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>農家からの新鮮な野菜、卸問屋からの食品・日用品等。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>半導体ICチップ、基板、金属材料、ネジ、部品等。</div>
+                    </div>
+                    <textarea id="q7" rows="2" placeholder="仕入れや材料、情報など..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q7"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre-post">
+                    <div class="q-top">
+                        <span class="q-label lbl-amber">Q8. 加工・価値生成 (Process)</span>
+                        <button onclick="toggleHint('hint-q8')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">仕入れにどんな魔法・加工をかけている？</h3>
+                    <div id="hint-q8" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>鮮魚の素早い加工、手書きPOP、見やすい陳列工夫。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>自動実装機によるハンダ付け、顕微鏡検査、プログラミング。</div>
+                    </div>
+                    <textarea id="q8" rows="2" placeholder="工夫、技術、おもてなしの加工..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q8"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre-post">
+                    <div class="q-top">
+                        <span class="q-label lbl-amber">Q9. 届ける先 (Output)</span>
+                        <button onclick="toggleHint('hint-q9')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">最終的に「誰のどんな困りごと」を解決するために届いている？</h3>
+                    <div id="hint-q9" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>「夕食作りに悩むお母さん」「お年寄りの買い出し難」を解決。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>「自動車メーカー（安全な自動ブレーキを作るため）」等。</div>
+                    </div>
+                    <textarea id="q9" rows="2" placeholder="解決している相手の困りごと..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q9"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre-post">
+                    <div class="q-top">
+                        <span class="q-label lbl-amber">Q10. ライバルと自社の強み</span>
+                        <button onclick="toggleHint('hint-q10')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">ライバル（競合）はどこ？他にはない強み・魅力は？</h3>
+                    <div id="hint-q10" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>大型店が競合。強みは「地元野菜の圧倒的鮮度と馴染みの接客」。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>海外格安工場がライバル。強みは「試作品の超速納品と高精密品質」。</div>
+                    </div>
+                    <textarea id="q10" rows="2" placeholder="ライバルと独自の強み..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q10"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre-post">
+                    <div class="q-top">
+                        <span class="q-label lbl-amber">Q11. お金・コストの仕組み</span>
+                        <button onclick="toggleHint('hint-q11')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">活動を続けるためにお金をどこからどう得ている？</h3>
+                    <div id="hint-q11" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>来店客のレジでの支払い、仕出し契約代金等。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>メーカーからの「BtoB製品納入契約」、試作手数料等。</div>
+                    </div>
+                    <textarea id="q11" rows="2" placeholder="収入や売上の仕組み..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q11"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre-post">
+                    <div class="q-top">
+                        <span class="q-label lbl-amber">Q12. ゆずれないルール</span>
+                        <button onclick="toggleHint('hint-q12')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">仕事をする上で絶対に破れない法律やルールは？</h3>
+                    <div id="hint-q12" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>食品衛生法、消費期限表示、厳重な温度管理（HACCP）。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>ISO9001規格、静電気防止ルール、RoHS有害物質不使用指令。</div>
+                    </div>
+                    <textarea id="q12" rows="2" placeholder="法律、衛生、安全ルールなど..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q12"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: OCCUPATIONS & ROLES -->
+        <section class="section-card">
+            <div class="section-header header-sky">
+                <h2 class="sec-title">03. 職種（多様なプロと役割分担）</h2>
+                <span class="q-label lbl-sky">Phase: 事前・事後</span>
+            </div>
+            <div class="section-body grid grid-3">
+                <div class="q-card phase-card phase-pre-post">
+                    <div class="q-top">
+                        <span class="q-label lbl-sky">Q13. 見える仕事</span>
+                        <button onclick="toggleHint('hint-q13')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">お客様や利用者から見える仕事は？</h3>
+                    <div id="hint-q13" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>レジカウンター接客、売り場の陳列・声かけ担当。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>訪問営業職、サポートエンジニア、展示会案内担当。</div>
+                    </div>
+                    <textarea id="q13" rows="2" placeholder="表舞台の仕事..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q13"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre-post">
+                    <div class="q-top">
+                        <span class="q-label lbl-sky">Q14. 裏方の仕事</span>
+                        <button onclick="toggleHint('hint-q14')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">目に見えない「裏側」で支える仕事は？</h3>
+                    <div id="hint-q14" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>バックヤードの在庫管理、商品発注（バイヤー）、経理事務。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>資材調達管理、工場機械のメンテナンス、総務・経理、出荷物流。</div>
+                    </div>
+                    <textarea id="q14" rows="2" placeholder="裏方の仕事..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q14"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre-post">
+                    <div class="q-top">
+                        <span class="q-label lbl-sky">Q15. 専門職</span>
+                        <button onclick="toggleHint('hint-q15')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">特別な資格や高い技術が必要な仕事は？</h3>
+                    <div id="hint-q15" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>鮮魚解体技術者、食肉加工専門スタッフ、衛生管理者。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>電子回路設計エンジニア、品質保証（QA）スペシャリスト。</div>
+                    </div>
+                    <textarea id="q15" rows="2" placeholder="専門職..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q15"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre-post">
+                    <div class="q-top">
+                        <span class="q-label lbl-sky">Q16. プロの道具</span>
+                        <button onclick="toggleHint('hint-q16')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">使っている珍しい道具・システムは？</h3>
+                    <div id="hint-q16" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>バーコード読み取りPOSレジ、発注用ハンディ端末。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>基板表面実装機（マウンター）、デジタル検査顕微鏡、オシロスコープ。</div>
+                    </div>
+                    <textarea id="q16" rows="2" placeholder="道具や専用ツール..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q16"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre-post">
+                    <div class="q-top">
+                        <span class="q-label lbl-sky">Q17. チームの連携</span>
+                        <button onclick="toggleHint('hint-q17')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">職種同士はどうバトンを渡して連携している？</h3>
+                    <div id="hint-q17" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>朝礼でのインカム共有、混雑時のフォロー体制。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>営業・設計・製造での仕様確認会議、カンバン方式の連携。</div>
+                    </div>
+                    <textarea id="q17" rows="2" placeholder="連携や引き継ぎの工夫..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q17"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre-post">
+                    <div class="q-top">
+                        <span class="q-label lbl-sky">Q18. 共通の姿勢</span>
+                        <button onclick="toggleHint('hint-q18')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">全員が共通して大切にしている姿勢やマナーは？</h3>
+                    <div id="hint-q18" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>「明るい挨拶」「目配り気配り先回りの行動」。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>「不良品を絶対流さない」「5S（整理整頓等）と安全第一」。</div>
+                    </div>
+                    <textarea id="q18" rows="2" placeholder="共通マナーや心得..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q18"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: CAREER PERSPECTIVE -->
+        <section class="section-card">
+            <div class="section-header header-purple">
+                <h2 class="sec-title">04. キャリア視点（自分自身の振り返りと成長）</h2>
+                <span class="q-label lbl-purple">Phase: 事前 / 事後</span>
+            </div>
+            <div class="section-body grid grid-3">
+                <div class="q-card phase-card phase-pre">
+                    <div class="q-top">
+                        <span class="q-label lbl-purple">Q19. 得意な役割</span>
+                        <button onclick="toggleHint('hint-q19')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">学校や部活で自分の力を発揮できる役割は？</h3>
+                    <div id="hint-q19" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント：</strong>リーダーシップ、細かな計画、裏方での黙々サポート等。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント：</strong>手先が器用、細かいチェックが得意、ルール作りが好き等。</div>
+                    </div>
+                    <textarea id="q19" rows="2" placeholder="自分の強みや得意な役割..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q19"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-pre">
+                    <div class="q-top">
+                        <span class="q-label lbl-purple">Q20. やりがいの瞬間</span>
+                        <button onclick="toggleHint('hint-q20')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">何かをしていて最高に達成感を感じる瞬間は？</h3>
+                    <div id="hint-q20" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント：</strong>直接感謝された時、目標達成時、美しい作品を作れた時。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント：</strong>複雑な課題を原因分析して解消した時、モノが完璧に動いた時。</div>
+                    </div>
+                    <textarea id="q20" rows="2" placeholder="最高に嬉しい瞬間..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q20"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-post">
+                    <div class="q-top">
+                        <span class="q-label lbl-purple">Q21. 体験後の意識変化</span>
+                        <button onclick="toggleHint('hint-q21')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">体験を通して「働くこと」へのイメージはどう変わった？</h3>
+                    <div id="hint-q21" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント：</strong>「単なる作業と思っていたが、裏で地域生活を支えていると分かった」等。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント：</strong>「工場での作業だと思っていたが、高い技術力で社会を動かしていると分かった」等。</div>
+                    </div>
+                    <textarea id="q21" rows="2" placeholder="体験前後の気づきと変化..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q21"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                </div>
+
+                <div class="q-card phase-card phase-post col-span-3">
+                    <div class="q-top">
+                        <span class="q-label lbl-purple">Q22. 明日からの行動宣言</span>
+                        <button onclick="toggleHint('hint-q22')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">プロの姿を真似して、明日からの高校生活で具体的に始める小さな行動は？</h3>
+                    <div id="hint-q22" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント：</strong>「明日から部活の道具片付けで、次に使う人が取りやすい向きに揃えて片付ける！」</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント：</strong>「明日から部室や勉強机の整理で、使う順にラベルを貼って配置（5Sの実践）する！」</div>
+                    </div>
+                    <input type="text" id="q22" placeholder="明日から実践する小さな一歩..." style="font-weight:700; color:#581c87;" oninput="autoSaveFormData()">
+                    <div class="print-filled-display" id="disp-q22"></div>
+                    <div class="print-lines-group"><div class="print-line-dotted"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: FUTURE PERSPECTIVE -->
+        <section class="section-card">
+            <div class="section-header header-emerald">
+                <h2 class="sec-title">05. 未来視点（10年後の大ピンチと新提案）</h2>
+                <span class="q-label lbl-emerald">Phase: 事後</span>
+            </div>
+            <div class="section-body grid grid-4">
+                <div class="q-card phase-card phase-post col-span-4">
+                    <div class="q-top">
+                        <span class="q-label lbl-emerald">Q23. 10年後の3大ピンチ</span>
+                        <button onclick="toggleHint('hint-q23')" class="btn-hint-trigger no-print">💡 全体ヒント</button>
+                    </div>
+                    <h3 class="q-heading">10年後の未来、以下の3つの変化によって、この会社はどんな大ピンチ（課題）が起きそう？</h3>
+                    
+                    <div id="hint-q23" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active">
+                            <strong>💡 全体ヒント（スーパー）：</strong>
+                            10年後は、今まで通りのやり方でお店を開いているだけでは厳しくなるかもしれません。下の3つの項目（①技術・②人口・③環境）のヒントボタンを押して、どんなピンチが起きそうか想像してみよう！
+                        </div>
+                        <div class="hint-content hint-electronics">
+                            <strong>💡 全体ヒント（電子機器）：</strong>
+                            10年後は、今まで通りのモノの作り方や製品では買ってくれなくなるかもしれません。下の3つの項目（①技術・②人口・③環境）のヒントボタンを押して、どんなピンチが起きそうか想像してみよう！
+                        </div>
+                    </div>
+
+                    <div class="grid grid-3" style="margin-top:0.5rem;">
+                        <div style="background:white; padding:0.75rem; border-radius:0.5rem; border:1px solid var(--slate-200);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.25rem;">
+                                <label style="font-size:0.7rem; font-weight:700; color:var(--slate-600);">🤖 ① 技術革新（AI・自動化等）</label>
+                                <button onclick="toggleHint('hint-q23-tech')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                            </div>
+                            <div id="hint-q23-tech" class="hint-box no-print" style="margin-bottom:0.5rem;">
+                                <div class="hint-content hint-supermarket active"><strong>💡 スーパー：</strong>スマホで家まで届くネット通販や、店員さんのいないAI無人店舗が増えると、「わざわざお店まで歩いていく理由」が消えちゃう？他のお店がAIを使って安く売り始めたらどうしよう？</div>
+                                <div class="hint-content hint-electronics"><strong>💡 電子機器：</strong>誰でもAIや最新ロボットを使ってきれいに部品を作れるようになったら、値段の安さ勝負になっちゃう？新技術ができて「今まで作っていた部品自体がいらなくなる」かも？</div>
+                            </div>
+                            <textarea id="q23-tech" rows="2" placeholder="技術変化によるピンチ..." oninput="autoSaveFormData()"></textarea>
+                            <div class="print-filled-display" id="disp-q23-tech"></div>
+                            <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                        </div>
+
+                        <div style="background:white; padding:0.75rem; border-radius:0.5rem; border:1px solid var(--slate-200);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.25rem;">
+                                <label style="font-size:0.7rem; font-weight:700; color:var(--slate-600);">👥 ② 人口減少（お客・働き手）</label>
+                                <button onclick="toggleHint('hint-q23-pop')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                            </div>
+                            <div id="hint-q23-pop" class="hint-box no-print" style="margin-bottom:0.5rem;">
+                                <div class="hint-content hint-supermarket active"><strong>💡 スーパー：</strong>街の人が減ってお客さんが少なくなり、お年寄りが増えてお店に来づらくなる？それどころか、レジ打ちや品出しをしてくれるアルバイトや社員さんが集まらなくなるかも？</div>
+                                <div class="hint-content hint-electronics"><strong>💡 電子機器：</strong>ベテランの職人さんが引退して、若い人が入ってこないと「すごい技術」を受け継ぐ人がいなくなる？買ってくれる大きな会社の工場が海外に移ってしまうリスクは？</div>
+                            </div>
+                            <textarea id="q23-pop" rows="2" placeholder="人口変化によるピンチ..." oninput="autoSaveFormData()"></textarea>
+                            <div class="print-filled-display" id="disp-q23-pop"></div>
+                            <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                        </div>
+
+                        <div style="background:white; padding:0.75rem; border-radius:0.5rem; border:1px solid var(--slate-200);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.25rem;">
+                                <label style="font-size:0.7rem; font-weight:700; color:var(--slate-600);">🌱 ③ 環境対応（エコ・廃棄等）</label>
+                                <button onclick="toggleHint('hint-q23-env')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                            </div>
+                            <div id="hint-q23-env" class="hint-box no-print" style="margin-bottom:0.5rem;">
+                                <div class="hint-content hint-supermarket active"><strong>💡 スーパー：</strong>売れ残った食品を捨てることが禁止されたり、プラスチックの容器や袋が全部使えなくなったら、代わりの容器にお金がかかる？地球に優しくないお店はお客さんから選ばれなくなる？</div>
+                                <div class="hint-content hint-electronics"><strong>💡 電子機器：</strong>買ってくれる大きな会社から「地球に優しいエコな作り方をしないと買いません」と言われてしまうかも？リサイクルできる材料に変えるために、たくさんお金がかかる？</div>
+                            </div>
+                            <textarea id="q23-env" rows="2" placeholder="環境変化によるピンチ..." oninput="autoSaveFormData()"></textarea>
+                            <div class="print-filled-display" id="disp-q23-env"></div>
+                            <div class="print-lines-group"><div class="print-line-dotted"></div><div class="print-line-dotted"></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="q-card phase-card phase-post col-span-4">
+                    <div class="q-top">
+                        <span class="q-label lbl-emerald">Q24. 勝手にアイデア提案</span>
+                        <button onclick="toggleHint('hint-q24')" class="btn-hint-trigger no-print">💡 ヒント</button>
+                    </div>
+                    <h3 class="q-heading">この会社の強みを活かして、10年後のピンチを解決する新事業・新企画を自由に提案しよう！</h3>
+                    
+                    <div id="hint-q24" class="hint-box no-print">
+                        <div class="hint-content hint-supermarket active"><strong>💡 ヒント1（スーパー）：</strong>『移動カフェ＆健康相談つき軽トラック市場』提案！単なる販売ではなくサロン機能を提供するアイデア。</div>
+                        <div class="hint-content hint-electronics"><strong>💡 ヒント2（電子機器）：</strong>『農業×IoTセンサー超小型自作キット開発事業』提案！精密基板技術を活かして地元農家のハウス温度管理を支える。</div>
+                    </div>
+
+                    <textarea id="q24-idea" style="height:8rem;" placeholder="提案タイトル、具体的な内容、活かす強みなどをたっぷり自由に書き出そう..." oninput="autoSaveFormData()"></textarea>
+                    <div class="print-filled-display" id="disp-q24-idea"></div>
+
+                    <div class="print-lines-group-large">
+                        <div class="print-line-dotted"></div>
+                        <div class="print-line-dotted"></div>
+                        <div class="print-line-dotted"></div>
+                        <div class="print-line-dotted"></div>
+                        <div class="print-line-dotted"></div>
+                        <div class="print-line-dotted"></div>
+                        <div class="print-line-dotted"></div>
+                        <div class="print-line-dotted"></div>
+                        <div class="print-line-dotted"></div>
+                        <div class="print-line-dotted"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SUMMARY MODAL -->
+        <div id="summary-modal" class="modal-overlay no-print">
+            <div class="modal-card">
+                <div style="display:flex; justify-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--slate-200); padding-bottom:0.5rem;">
+                    <h2 style="font-size:1.25rem; font-weight:800;">🧹 記入内容の一覧・整理</h2>
+                    <button onclick="toggleSummaryModal()" class="btn" style="padding:0.25rem 0.5rem;">✕ 閉じる</button>
+                </div>
+                <div id="modal-content" style="display:flex; flex-direction:column; gap:1rem;"></div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="no-print" style="margin-top: 3rem; text-align: center; font-size: 0.75rem; color: #94a3b8; padding-bottom: 2rem;">
+            <p>© KOKUZO</p>
+        </footer>
+    </div>
+
+    <!-- JAVASCRIPT ENGINE -->
+    <script>
+        const SAVE_KEY = "matsukawa_worksheet_data";
+        let currentHintTheme = 'supermarket';
+
+        function setHintTheme(theme) {
+            currentHintTheme = theme;
+            
+            const btn1 = document.getElementById('btn-hint-theme-supermarket');
+            const btn2 = document.getElementById('btn-hint-theme-electronics');
+
+            if (theme === 'supermarket') {
+                if (btn1) btn1.classList.add('active');
+                if (btn2) btn2.classList.remove('active');
+
+                document.querySelectorAll('.hint-content.hint-supermarket').forEach(el => el.classList.add('active'));
+                document.querySelectorAll('.hint-content.hint-electronics').forEach(el => el.classList.remove('active'));
+            } else {
+                if (btn2) btn2.classList.add('active');
+                if (btn1) btn1.classList.remove('active');
+
+                document.querySelectorAll('.hint-content.hint-electronics').forEach(el => el.classList.add('active'));
+                document.querySelectorAll('.hint-content.hint-supermarket').forEach(el => el.classList.remove('active'));
+            }
+        }
+
+        function toggleHint(hintId) {
+            const el = document.getElementById(hintId);
+            if (el) {
+                el.classList.toggle('show');
+            }
+        }
+
+        function setPhaseFilter(phase) {
+            document.querySelectorAll('.btn-phase').forEach(btn => {
+                if (btn.id.startsWith('btn-phase-')) btn.classList.remove('active');
+            });
+            const activeBtn = document.getElementById('btn-phase-' + phase);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            const cards = document.querySelectorAll('.phase-card');
+            cards.forEach(card => {
+                if (phase === 'all') {
+                    card.style.opacity = '1';
+                    card.style.display = 'flex';
+                } else if (card.classList.contains('phase-' + phase)) {
+                    card.style.opacity = '1';
+                    card.style.display = 'flex';
+                } else {
+                    card.style.opacity = '0.3';
+                }
+            });
+        }
+
+        function autoSaveFormData() {
+            const formData = {};
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (input.id) formData[input.id] = input.value;
+            });
+            localStorage.setItem(SAVE_KEY, JSON.stringify(formData));
+            updateProgress();
+        }
+
+        function loadSavedFormData() {
+            const raw = localStorage.getItem(SAVE_KEY);
+            if (!raw) return;
+            try {
+                const formData = JSON.parse(raw);
+                Object.keys(formData).forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = formData[id];
+                });
+                updateProgress();
+            } catch(e) {
+                console.error("Auto load failed", e);
+            }
+        }
+
+        function updateProgress() {
+            const inputs = document.querySelectorAll('.q-card input, .q-card textarea');
+            let filled = 0;
+            inputs.forEach(input => {
+                if (input.value && input.value.trim() !== '') filled++;
+            });
+            const pct = Math.round((filled / inputs.length) * 100);
+            
+            const bar = document.getElementById('progress-bar');
+            const txt = document.getElementById('progress-text');
+            if (bar) bar.style.width = pct + '%';
+            if (txt) txt.textContent = pct + '%';
+        }
+
+        function printBlank() {
+            document.body.classList.add('mode-print-blank');
+            document.body.classList.remove('mode-print-filled');
+            window.print();
+        }
+
+        function printFilled() {
+            document.querySelectorAll('input, textarea').forEach(input => {
+                if (input.id) {
+                    const disp = document.getElementById('disp-' + input.id);
+                    if (disp) disp.textContent = input.value || '（未入力）';
+                }
+            });
+            document.body.classList.add('mode-print-filled');
+            document.body.classList.remove('mode-print-blank');
+            window.print();
+        }
+
+        function saveJSONData() {
+            const formData = {};
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if (input.id) formData[input.id] = input.value;
+            });
+            const name = document.getElementById('student_name')?.value || '未入力';
+            const dateStr = new Date().toISOString().slice(0,10).replace(/-/g,'');
+            const filename = `インターンシップ解剖シート_${name}_${dateStr}.json`;
+            
+            const blob = new Blob([JSON.stringify(formData, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(a.href);
+        }
+
+        function loadJSONData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    Object.keys(data).forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.value = data[id];
+                    });
+                    autoSaveFormData();
+                    alert('データを読み込みました！');
+                } catch (err) {
+                    alert('JSONファイルの読み込みに失敗しました。');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function clearFormData() {
+            if (confirm('入力内容を全て削除して初期化しますか？')) {
+                localStorage.removeItem(SAVE_KEY);
+                document.querySelectorAll('input, textarea').forEach(input => {
+                    if (input.id !== 'school_name') input.value = '';
+                });
+                updateProgress();
+            }
+        }
+
+        function toggleSummaryModal() {
+            const modal = document.getElementById('summary-modal');
+            const content = document.getElementById('modal-content');
+            if (!modal) return;
+
+            if (modal.style.display === 'flex') {
+                modal.style.display = 'none';
+            } else {
+                let html = '';
+                document.querySelectorAll('.q-card').forEach(card => {
+                    const heading = card.querySelector('.q-heading')?.textContent || '';
+                    const input = card.querySelector('input, textarea');
+                    const val = input ? (input.value || '（未入力）') : '';
+                    html += `
+                        <div style="background:var(--slate-100); padding:0.75rem; border-radius:0.5rem;">
+                            <div style="font-weight:700; font-size:0.85rem; color:var(--primary); margin-bottom:0.25rem;">${heading}</div>
+                            <div style="font-size:0.9rem; color:var(--slate-800);">${val}</div>
+                        </div>
+                    `;
+                });
+                content.innerHTML = html;
+                modal.style.display = 'flex';
+            }
+        }
+
+        window.onload = function() {
+            loadSavedFormData();
+            setHintTheme('supermarket');
+        };
+    </script>
+</body>
+</html>
